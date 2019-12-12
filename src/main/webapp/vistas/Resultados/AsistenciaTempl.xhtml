@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../Template/PlantillaI.xhtml">
+
+            <ui:define name="content">
+                <f:event listener="#{resultadosC.listAsis(loginC.usuario.codProf)}" type="preRenderView"/>
+                <center><h1>Asistencia de Estudiante</h1></center> 
+                <br/>
+                <h:form>
+                    <p:dataTable value="#{resultadosC.listAsistencia}" var="list" id="table">
+
+                        <p:column headerText="Asistencias: " >
+                            <h:outputText value="#{list.ASIS}"/>                            
+                        </p:column>
+
+
+                        <p:column headerText="Faltas: " >
+                            <h:outputText value="#{list.FALT}"/>                            
+                        </p:column>
+
+
+                        <p:column headerText="Mal Vestido: " >
+                            <h:outputText value="#{list.MV}"/>                            
+                        </p:column>
+
+
+                        <p:column headerText="Corte de Cabello: " >
+                            <h:outputText value="#{list.CMA}"/>                            
+                        </p:column>
+
+                    </p:dataTable>
+
+
+                </h:form>                                                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

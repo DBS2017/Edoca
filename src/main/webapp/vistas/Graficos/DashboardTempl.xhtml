@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="../Template/PlantillaI.xhtml">
+        <ui:define name="graf">
+            <a>
+                <i class="zmdi zmdi-timer zmdi-hc-fw">
+                </i>
+                Dashboard
+            </a>
+        </ui:define>
+
+        <ui:define name="content">   
+            <h:body>
+                <br></br>
+                <center> <b><i><H2>EDOOCA</H2></i></b></center>
+                <br></br>
+                <h:form id="grafico">
+                    <style type="text/css">
+                        .ui-chart {
+                            margin-bottom: 50px;
+                        }
+                    </style>
+                    <p:inputText value="#{estudianteCon.codigoBuscar}"></p:inputText>
+                    <p:commandButton actionListener="#{estudianteCon.createLineModel()}" value="Ver grafico" update="line"/>
+                    <p:lineChart id="line" model="#{estudianteCon.lineModel}" style="width:800px;height:200px"/>
+                </h:form>
+
+                <br></br>
+                <center> 
+                    <h:form style="width: 800px">
+
+                        <h:panelGroup id="pnlGrAdmin" >
+                            <p:chart type="pie" model="#{estudianteCon.chartmodel}"
+                                     rendered="#{estudianteCon.chartmodel != null}"
+                                     style="margin: 0 auto"
+                                     responsive="true"/>
+                        </h:panelGroup> 
+                    </h:form>
+                </center>
+                <br></br>
+                <br></br>
+                <center> 
+                    <p:chart type="bar" model="#{matriculaC.barra}" style="width:800px;height:300px"/>
+                </center>
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>
+

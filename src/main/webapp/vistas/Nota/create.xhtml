@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition>
+
+            <p:dialog widgetVar="wdlgDatos" width="50%" id="dlgDatos"  height="500px">
+                <h:form>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="NOMBRE DE CRITERIO"/>
+                        <p:selectOneMenu value="#{notaC.nota.CODCRI}" required="true" requiredMessage="Ingrese el criterio">                                
+                            <f:selectItem itemLabel="Selecionar Criterio" noSelectionOption="true"/>
+                            <f:selectItems value="#{notaC.listarCriterios}" var="txtCriterios" itemValue="#{txtCriterios.CODCRI}" itemLabel="#{txtCriterios.NOMCRI}"/>
+                        </p:selectOneMenu>
+
+
+                        <p:outputLabel  value="Fecha de Registros(día/mes/año)):" />
+                        <p:inputMask id="button" value="#{notaC.nota.FECREG}"  mask="99/99/9999"  required="true" requiredMessage="Ingresar la fecha" />
+
+
+                        <p:commandButton  value="Guardar" actionListener="#{notaC.registrar()}" oncomplete="handleSubmit(args, 'wdlgDatos');" update="cars2"/>
+
+                    </p:panelGrid>   
+
+                    <br/>
+                    <br/>
+
+                    <p:dataTable id="cars2" var="EstuAula" value="#{notaC.listarEstud}" editable="true" editMode="cell">
+
+                        <p:column headerText="N°" width="10%">
+                            <h:outputText value="#{notaC.listarEstud.indexOf(EstuAula)+1}"/>
+                        </p:column>
+                        <p:column headerText="ESTUDIANTE" width="70%">
+                            <h:outputText value="#{EstuAula.NOMPER} #{EstuAula.APEPER}"/>
+                        </p:column>
+                        <p:column headerText="NOTA" width="20%">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{EstuAula.REGNOT}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputNumber value="#{EstuAula.REGNOT}" style="width:96%" maxValue="20" minValue="0" required="true" requiredMessage="Ingrese Nota" />
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:dialog>
+
+        </ui:composition>
+    </h:body>
+</html>

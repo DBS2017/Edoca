@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
+
+    <body>
+
+        <ui:composition template="./../Template/PlantillaI.xhtml">
+
+            <ui:define name="content">
+                <h:form>
+                    <h:form id="formCurso"> 
+                        <h3 style="margin-top:1" align="center" > <b><i><H2>REGISTRO DE CURSOS</H2></i></b></h3>
+                        <br>    </br>
+                    </h:form>
+                </h:form>
+
+                <p:growl life="1500" >
+                    <p:autoUpdate/>
+                </p:growl>
+                <h:form id="formCurso">               
+                    <p:accordionPanel>
+                        <p:tab title="AGREGAR" >
+                            <p:panelGrid columns="3">
+
+                                <p:outputLabel value="Nombre"/>
+                                <p:inputText value="#{cursoCon.curso.NOMCUR}" maxlength="50" required="true" requiredMessage="Ingrese el Nombre">
+                                    <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                                </p:inputText>                        
+                                <p:commandButton value="REGISTRAR" actionListener="#{cursoCon.registrar()}" update="formCurso tablaCurso" />                               
+
+                            </p:panelGrid>
+                        </p:tab>
+
+
+
+
+                    </p:accordionPanel>
+                </h:form>
+
+                <p:spacer/>
+                <h:form id="tablaCurso">
+                    <p:dataTable id="tblCurso" var="curso" value="#{cursoCon.listadoCur}" rowKey="#{curso.CODCUR}"
+                                 selection="#{cursoCon.curso}" selectionMode="single" rows="30" paginator="true"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,20" >             
+
+
+
+                        <p:column headerText="NOMBRE" >
+                            <h:outputText value="#{curso.NOMCUR}"/>
+                        </p:column>
+
+                        <p:column headerText="ESTADO">
+                            <h:outputText value="#{curso.ESTCUR}"/>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            En total hay #{fn:length(cursoCon.listadoCur)} registros.
+                        </f:facet>
+
+                    </p:dataTable>
+<!--                    <p:column  width="10%" exportable="false">
+                        <p:commandLink  ajax="false" style="align:center" actionListener="">
+                            <img width="5%" src="../../Img/PDF.png" alt=""/>
+                        </p:commandLink>
+                    </p:column> -->
+                    <p:contextMenu for="tblCurso">
+                        <p:menuitem value="Modificar" update="cursoo" oncomplete="PF('cursodlg').show()"/>
+                        <p:menuitem value="Eliminar" update="tblCurso" icon="pi pi-times" actionListener="#{cursoCon.eliminar()}">
+                            <p:confirm header="Confirmación" message="¿Desea eliminar Registro?" icon="pi pi-exclamation-triangle" />
+                        </p:menuitem>
+                    </p:contextMenu>
+                </h:form>
+                
+
+                <p:dialog header="Car Info" widgetVar="cursodlg" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
+                    <h:form id="cursoo">
+
+                        <p:panelGrid columns="2">
+
+                            <p:outputLabel value="Nombre"/>
+                            <p:inputText value="#{cursoCon.curso.NOMCUR}" maxlength="50" required="true" requiredMessage="Ingrese el Nombre">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText> 
+
+                            <p:commandButton value="MODIFICAR" actionListener="#{cursoCon.modificar()}" update="tablaCurso tablaCurso" oncomplete="PF('cursodlg').hide()"/>
+                            <p:commandButton value="CANCELAR"  oncomplete="PF('cursodlg').hide()"/>
+                        </p:panelGrid>         
+                    </h:form>
+                </p:dialog>
+
+
+
+                <h:form>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                    </p:confirmDialog>  
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

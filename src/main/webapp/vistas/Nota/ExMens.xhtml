@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:body>
+        <ui:composition>
+            <h:form id="frmPromediosEM">
+                <p:dataTable id="table" var="promedio2" value="#{notaC.listNotExMen}">
+                    
+                    
+                    <p:column  filterBy="#{promedio2.NOMPER}" style="width: 25px; text-align: center;font-size: 12px"  headerText="Estudiante" groupRow="true">
+                        <h:outputText value="#{promedio2.NOMPER}" />
+                    </p:column>
+
+                    <p:column style="width: 20px; text-align: center;font-size: 12px" headerText="Criterio" groupRow="true" >
+                        <h:outputText value="#{promedio2.NOMCRI}" />
+                    </p:column>
+
+                    <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Nota">                        
+                        <h:outputText value="#{promedio2.NOTREG}"/>                                                        
+                    </p:column>
+
+                    <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Fecha">
+                        <h:outputText value="#{promedio2.FECREG}" />
+                    </p:column>
+                    <p:column id="col" style="width: 10px; text-align: center;font-size: 12px" headerText="Promedio" groupRow="true" >
+                        <p:repeat value="#{promedio2.lstPromedioFinal}" var="lstPF">
+                            <h:outputText id="select" value="#{lstPF.PROFIN}" />
+                            <br/>
+                        </p:repeat>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:composition>
+    </h:body>
+</html>

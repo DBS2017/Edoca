@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <body>
+
+    <ui:composition template="./../Template/PlantillaI.xhtml">
+
+        <ui:define name="content">
+            <center> <b><i><H2>TOP 5</H2></i></b></center>
+            <br></br>
+            <h:form>
+                <p:dataTable var="car" value="#{resultadosC.lisTops}" sortBy="#{car.gradAlum}, #{car.secAlum} " expandableRowGroups="true" >
+
+
+                    <p:headerRow>
+                        <p:column headerText="Datos" groupRow="true" >
+                            <h:outputText value="#{car.gradAlum},#{car.secAlum}" />
+                        </p:column>
+                    </p:headerRow>
+
+                    <p:column headerText="Estudiante" groupRow="true" >
+                        <h:outputText value="#{car.apeAlum}, #{car.nomAlum} " />                                   
+                    </p:column>
+
+                    <p:column headerText="Curso" >
+                        <h:outputText value="#{car.nomCur}"/>    
+                    </p:column>
+
+                    <p:column headerText="Promedio Final" >
+                        <h:outputText value="#{car.nota}" />    
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+
+
+        </ui:define>
+
+    </ui:composition>
+
+</body>
+</html>

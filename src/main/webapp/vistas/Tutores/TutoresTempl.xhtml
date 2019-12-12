@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <body>
+
+        <ui:composition template="./../Template/PlantillaI.xhtml">
+
+            <ui:define name="content">
+                <h:body>
+                    <p:growl showDetail="true" id="messages" >
+                        <p:autoUpdate/>
+                    </p:growl>
+                    <center>
+                        <br></br>
+                        <h:form id="form">
+                            <center> <b><i><H2>ASIGNACIÓN DE TUTORES</H2></i></b></center>
+                             <br></br>
+                            <p:dataTable value="#{aulaC.listadoAul}" id="dtTable" var="lista" 
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                         paginator="true" rows="10" style="margin-bottom:80px" widgetVar="wdlaData">
+                                <br></br>
+                                <br></br>
+                                <f:facet name="header">
+                                     <br></br>
+                                    <p:commandButton value="Agregar Asignación"
+                                                     icon="ui-icon-pencil" 
+                                                     oncomplete="PF('wdlgDatos').show();"
+                                                     update=":dlgDatos"
+                                                     actionListener="#{aulaC.setAcctionAul('Asignar')}"/>
+                                     <br></br>
+                                      <br></br>
+                                </f:facet>
+
+                                <p:column style="width: 270px" headerText="TUTOR">
+                                    <h:outputText value="#{lista.autTut}"/>
+                                </p:column>
+
+                                <p:column style="width: 120px" headerText="GRADO - SECCIÓN">
+                                    <center>
+                                        <h:outputText value="#{lista.graAul}"/>
+                                        <h:outputText value=" - "/>
+                                        <h:outputText value="#{lista.secAul}"/>
+                                    </center>
+                                </p:column>
+
+                                <p:column style="width: 30px"> <!--MODIFICAR-->
+                                    <p:commandButton id="Modificar"
+                                                     icon="ui-icon-pencil" 
+                                                     style="background: lightcyan" 
+                                                     actionListener="#{aulaC.leerAula(lista.codAul)}" 
+                                                     oncomplete="PF('wdlgDatos').show();"
+                                                     update=":dlgDatos">
+                                        <p:tooltip style="background: ligthcyan"  for="Modificar" value="MODIFICAR"
+                                                   showEffect="clip" hideEffect="explode" position="left"/> 
+                                    </p:commandButton>
+
+                                </p:column>
+
+                                <p:column style="width: 30px"> <!--ELIMINAR-->
+                                    <p:commandButton id="Eliminar"
+                                                     icon="ui-icon-circle-close"
+                                                     style="background: salmon"
+                                                     actionListener="#{aulaC.eliminar(lista)}"
+                                                     update="dtTable">
+                                        <p:tooltip  style="background-color: salmon" for="Eliminar" value="ELIMINAR"
+                                                    showEffect="clip" hideEffect="explode" position="left"/>
+                                        <p:confirm header="CONFIRMACIÓN:" message="¿DESEA ELIMINAR ASIGNACIÓN? " icon="ui-icon-alert" />                             
+                                    </p:commandButton>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes"
+                                                         icon="ui-icon-check"/>
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                                                         icon="ui-icon-close" />
+                                    </p:confirmDialog>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </center>
+
+                    <p:dialog showEffect="explode" modal="false"
+                              hideEffect="explode"
+                              header="Actualizar Asignación" id="dlgDatos" widgetVar="wdlgDatos">
+                        <h:form>
+                            <p:panelGrid columns="2">
+
+                                <p:outputLabel for="console" value="Grado :" />
+                                <p:selectOneMenu id="console" value="#{aulaC.aula.graAul}" style="width:225px" required="true" requiredMessage="Ingresa el grado">
+                                    <f:selectItem itemLabel="--Seleccione--" itemValue="" />
+                                    <f:selectItem itemLabel="1ero" itemValue="1ero" />
+                                    <f:selectItem itemLabel="2do" itemValue="2do" />
+                                    <f:selectItem itemLabel="3ero" itemValue="3ero"/>
+                                    <f:selectItem itemLabel="4to" itemValue="4to"/>
+                                    <f:selectItem itemLabel="5to" itemValue="5to"/>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Seccion: "/>
+                                <p:selectOneRadio id="sexo" value="#{aulaC.aula.secAul}" required="true" requiredMessage="la seccion" >
+                                    <f:selectItem itemLabel="A" itemValue="A"/>
+                                    <f:selectItem itemLabel="B" itemValue="B"/>
+                                    <f:selectItem itemLabel="C" itemValue="C"/>
+                                </p:selectOneRadio>
+
+                                <p:outputLabel value="Tutor" for="cur"/>
+                                <p:autoComplete id="cur" dropdown="true" value="#{aulaC.aula.autTut}" completeMethod="#{aulaC.completeTextTutor}" required="true" requiredMessage="Ingresa el numero de DNI">
+                                    <p:keyFilter regEx="/[0-9]/"/>
+                                </p:autoComplete>
+
+
+                            </p:panelGrid>
+                            <p:commandButton value="#{aulaC.acctionAul}"
+                                             actionListener="#{aulaC.operadorAula()}"
+                                             update="dlgDatos :form:dtTable"/>
+                            <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();"/>
+                        </h:form>                        
+                    </p:dialog>
+                </h:body>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

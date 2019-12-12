@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <body>
+
+    <ui:composition template="../Template/PlantillaI.xhtml">
+
+        <ui:define name="content">
+
+            <h:body>
+                <p:growl showDetail="true" id="messages" >
+                    <p:autoUpdate/>
+                </p:growl>
+                <h:form id="form">
+                    <br></br>
+                    <center> <b><i><H2>REGISTRO DE ESTUDIANTES</H2></i></b></center>
+                    <br></br>
+                    <p:dataTable value="#{estudianteCon.listadoEst}"
+                                 filteredValue="#{estudianteCon.filteredEstu}"
+                                 var="lista" id="dtTable" emptyMessage="REGISTRO NO ENCONTRADO, ASEGURESE DE HABER REGISTRADO AL ESTUDIANTE."
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                 paginator="true" rows="10" style="font-size: 15px" widgetVar="wdlaData">
+
+                        <f:facet name="header">
+                            <br></br>
+                            <p:commandButton value="Agregar Registro" 
+                                             style="background: azure"
+                                             oncomplete="PF('wdlgRegistrar').show();" 
+                                             icon="ui-icon-pencil"
+                                             update=":dlgRegistrar"
+                                             />
+                            <br></br>
+                            <br></br>
+                            <p:panel header="Ingresar DNI">
+                                <p:inputText value="#{estudianteCon.estu}" placeholder="Estudiante" />
+                                <p:commandButton value="Descargar" ajax="false" actionListener="#{estudianteCon.descargarPDFreg_est()}"/>
+                            </p:panel>
+                            <br></br>
+                            <p:panel header="Ingresar Curso y Aula">
+                                <p:inputText value="#{estudianteCon.var1}" placeholder="Curso" />
+                                <p:inputText value="#{estudianteCon.var2}" placeholder="Aula" />
+                                <p:commandButton value="Descargar" ajax="false" actionListener="#{estudianteCon.descargarPDFaulaCurso()}"/>
+                            </p:panel>
+                            <br></br>
+                        </f:facet>   
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="BUSCAR ESTUDIANTE:"/>
+                                <p:inputText id="globalFilter" onkeyup="PF('wdlaData').filter()" style="width:150px" placeholder="_______________"/>
+                            </p:outputPanel>
+                            <br></br>
+                        </f:facet>
+                        <p:column style="width: 30px">
+                            <p:rowToggler />
+                        </p:column>
+
+                        <p:column filterBy="#{lista.apeEstu}, #{lista.nomEstu}" style="width: 150px ;font-size: 12px" headerText="APELLIDOS Y NOMBRE(S)" filterMatchMode="contains">
+                            <h:outputText value="#{lista.apeEstu}, #{lista.nomEstu} "/>
+                        </p:column>
+
+                        <p:column filterBy="#{lista.dniEstu}" style="width: 80px; text-align: center;font-size: 12px" headerText="DNI" filterMatchMode="contains">
+                            <h:outputText value="#{lista.dniEstu}"/>
+                        </p:column>
+
+                        <p:column style="width: 70px; text-align: center;font-size: 12px" headerText="SEXO">
+                            <h:outputText value="#{lista.sexEstu eq 'M' ? 'Masculino' :''}"/>
+                            <h:outputText value="#{lista.sexEstu eq 'F' ? 'Femenino' :''}"/>
+                        </p:column>
+
+                        <p:column style="width: 90px; text-align: center;font-size: 12px" headerText="FECHA DE NACIMENTO">
+                            <h:outputText value="#{lista.dateEstu}"  />
+                        </p:column>  
+
+                        <p:column style="width:150px;font-size: 12px" headerText="DIRECCIÓN">
+                            <h:outputText value="#{lista.dirEstu}"/>
+                        </p:column>
+
+                        <p:column headerText="UBIGEO" style="width: 250px;font-size: 12px">
+                            <h:outputText value="#{lista.nomubigeo}"/>
+                        </p:column>
+
+                        <p:rowExpansion>
+                            <p:panelGrid columns="2" columnClasses="label, value" style="width:550px">
+                                <h:outputText value="CORREO ELECTRÓNICO"/>
+                                <h:outputText value="#{lista.corEstu}"/>
+
+                                <h:outputText value="PARENTESCO FAMILIAR"/> 
+                                <h:outputText value="#{lista.parEstu}"/>
+
+
+
+                                <h:outputText value="USUARIO"/>
+                                <h:outputText value="#{lista.usuPer} "/>
+
+
+
+                                <h:outputText value="CONTRASEÑA"/>
+                                <h:outputText value="#{lista.passEst}"/>
+                            </p:panelGrid>
+                        </p:rowExpansion>
+
+
+                        <p:column style="width: 60px"><!--MODIFICAR REGISTRO-->
+                            <p:commandButton id="Modificar"
+                                             style="background: #14b4fc"
+                                             icon="ui-icon-pencil" 
+                                             actionListener="#{estudianteCon.leerEstudiante(lista.idEstu)}" 
+                                             oncomplete="if(args &amp;&amp; !args.validationFailed) PF('wdlgModificar').show();"
+                                             update=":dlgModificar">
+                                <p:tooltip style="background: ligthcyan" for="Modificar" value="MODIFICAR"
+                                           showEffect="clip" hideEffect="explode" position="left"/>                  
+                            </p:commandButton>
+
+
+                        </p:column> 
+
+                        <p:column style="width: 60px"> <!--ELIMINAR REGISTRO DEL ESTUDIANTE-->
+                            <p:commandButton  id="Eliminar"
+                                              icon="ui-icon-trash"
+                                              style="background: #FF5722"
+                                              actionListener="#{estudianteCon.eliminar(lista)}" 
+                                              update="dtTable">
+                                <p:tooltip  style="background-color: salmon" for="Eliminar" value="ELIMINAR"
+                                            showEffect="clip" hideEffect="explode" position="left"/>
+                                <p:confirm header="CONFIRMACIÓN:" message="¿DESEA ELIMINAR REGISTRO? " icon="ui-icon-alert" />
+                            </p:commandButton>
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" 
+                                                 icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" 
+                                                 icon="ui-icon-close" />
+                            </p:confirmDialog>     
+                        </p:column> 
+
+                        <f:facet name="footer">
+                            En total hay #{fn:length(estudianteCon.listadoEst)} registros.
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+
+                <!--FORMULARIO PARA REGISTRAR LOS DATOS DEL ESTUDIANTE-->
+                <p:dialog showEffect="explode" hideEffect="explode" header="INGRESAR DATOS:" id="dlgRegistrar" widgetVar="wdlgRegistrar">
+                    <h:form id="formDia">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="NOMBRE(S)"/>
+                            <p:inputText value="#{estudianteCon.estudiante.nomEstu}" required="true" requiredMessage="Ingrese el Nombre del alumno" maxlength="80">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="APELLIDOS"/>
+                            <p:inputText value="#{estudianteCon.estudiante.apeEstu}" required="true" requiredMessage="Ingrese el apellido" maxlength="80">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel  value="FECHA DE NACIMIENTO (día/mes/año)"/>
+                            <p:inputMask id="button" value="#{estudianteCon.estudiante.dateEstu}"  mask="99/99/9999"  required="true" requiredMessage="Ingresar la fecha" />
+
+                            <p:outputLabel value="DNI"/>
+                            <p:inputText value="#{estudianteCon.estudiante.dniEstu}" maxlength="8" required="true" requiredMessage="Ingresa el numero de DNI" >
+                                <f:validator validatorId="validarExistenciaApoderado" />
+                                <p:keyFilter regEx="/[0-9]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="SEXO"/>
+                            <p:selectOneRadio id="sexo" value="#{estudianteCon.estudiante.sexEstu}" required="true" requiredMessage="Ingresa el sexo del estudiante" >
+                                <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                <f:selectItem itemLabel="Femenino" itemValue="F"/>                            
+                            </p:selectOneRadio>                                                                  
+
+
+                            <p:outputLabel value="PARENTESCO FAMILIAR"/>
+                            <p:selectOneMenu id="fami"  value="#{estudianteCon.estudiante.parEstu}"  style="width:165px" required="true" requiredMessage="Ingrese parentesco familiar" >
+                                <f:selectItem itemLabel="Selecciona" itemValue="" />
+                                <f:selectItem itemLabel="Hijo" itemValue="Hijo" />
+                                <f:selectItem itemLabel="Sobrino" itemValue="Sobrino" />
+                                <f:selectItem itemLabel="Tutoriado" itemValue="Tutoriado" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="DIRECCIÓN" />
+                            <p:inputText value="#{estudianteCon.estudiante.dirEstu}" required="true" requiredMessage="Ingrese su dirección"/>
+
+                            <p:outputLabel value="UBIGEO"/> 
+                            <p:autoComplete id="Ubi" maxResults="5"  forceSelection="true" value="#{estudianteCon.estudiante.nomubigeo}" completeMethod="#{estudianteCon.completeText}" required="true" requiredMessage="Ingrese ubigeo"/>
+
+                            <p:outputLabel value="CORREO ELECTRÓNICO"/>
+                            <p:inputText value="#{estudianteCon.estudiante.corEstu}" maxlength="50"/>
+
+                            <p:outputLabel value="USUARIO"/>
+                            <p:inputText value="#{estudianteCon.estudiante.usuPer}" maxlength="50"/>
+
+                            <p:outputLabel value="CONTRASEÑA"/>
+                            <p:inputText value="#{estudianteCon.estudiante.passEst}" maxlength="50"/>
+                        </p:panelGrid>
+
+                        <p:commandButton value="Registrar" 
+                                         actionListener="#{estudianteCon.registrar()}" 
+                                         oncomplete=" if(args &amp;&amp; !args.validationFailed)PF('wdlgRegistrar').hide();"
+                                         update="formDia :form:dtTable"/>                                     
+                        <p:commandButton value="Cancelar" immediate="true" oncomplete=" PF('wdlgRegistrar').hide();"/>
+                    </h:form>
+                </p:dialog>
+
+                <!--FORMULARIO PARA MODIFICAR LOS DATOS DEL ESTUDIANTE-->
+                <p:dialog showEffect="explode" hideEffect="explode" header="MODIFICAR DATOS:" id="dlgModificar" widgetVar="wdlgModificar">
+                    <h:form id="modiEstu">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="NOMBRE(S)"/>
+                            <p:inputText value="#{estudianteCon.estudiante.nomEstu}" required="true" requiredMessage="Ingrese el Nombre del alumno" maxlength="80">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="APELLIDOS"/>
+                            <p:inputText value="#{estudianteCon.estudiante.apeEstu}" required="true" requiredMessage="Ingrese el apellido" maxlength="80">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel  value="FECHA DE NACIMIENTO (día/mes/año)"/>
+                            <p:inputMask id="button" value="#{estudianteCon.estudiante.dateEstu}"  mask="99/99/9999"  required="true" requiredMessage="Ingresar la fecha" />
+
+                            <p:outputLabel value="DNI"/>
+                            <p:inputText value="#{estudianteCon.estudiante.dniEstu}" maxlength="8" required="true" requiredMessage="Ingresa el numero de DNI" >
+                                <f:validator validatorId="validarExistenciaApoderado" />
+                                <p:keyFilter regEx="/[0-9]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="SEXO"/>
+                            <p:selectOneRadio id="sexo" value="#{estudianteCon.estudiante.sexEstu}" required="true" requiredMessage="Ingresa el sexo del estudiante" >
+                                <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                <f:selectItem itemLabel="Femenino" itemValue="F"/>                            
+                            </p:selectOneRadio>                                                                  
+
+
+                            <p:outputLabel value="PARENTESCO FAMILIAR"/>
+                            <p:selectOneMenu id="fami"  value="#{estudianteCon.estudiante.parEstu}"  style="width:165px" required="true" requiredMessage="Ingrese parentesco familiar" >
+                                <f:selectItem itemLabel="Selecciona" itemValue="" />
+                                <f:selectItem itemLabel="Hijo" itemValue="Hijo" />
+                                <f:selectItem itemLabel="Sobrino" itemValue="Sobrino" />
+                                <f:selectItem itemLabel="Tutoriado" itemValue="Tutoriado" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="DIRECCIÓN" />
+                            <p:inputText value="#{estudianteCon.estudiante.dirEstu}" required="true" requiredMessage="Ingrese su dirección"/>
+
+                            <p:outputLabel value="UBIGEO"/> 
+                            <p:autoComplete id="Ubi" maxResults="5"  forceSelection="true" value="#{estudianteCon.estudiante.nomubigeo}" completeMethod="#{estudianteCon.completeText}" required="true" requiredMessage="Ingrese ubigeo"/>
+
+                            <p:outputLabel value="CORREO ELECTRÓNICO"/>
+                            <p:inputText value="#{estudianteCon.estudiante.corEstu}" maxlength="50"/>
+
+                            <p:outputLabel value="USUARIO"/>
+                            <p:inputText value="#{estudianteCon.estudiante.usuPer}" maxlength="50"/>
+
+                            <p:outputLabel value="CONTRASEÑA"/>
+                            <p:inputText value="#{estudianteCon.estudiante.passEst}" maxlength="50"/>
+                        </p:panelGrid>
+
+                        <p:commandButton value="Modificar" 
+                                         actionListener="#{estudianteCon.modificar()}" oncomplete=" if(args &amp;&amp; !args.validationFailed)PF('wdlgModificar').hide();"
+                                         update="modiEstu :form:dtTable"/>                                     
+                        <p:commandButton value="Cancelar" immediate="true" oncomplete=" PF('wdlgModificar').hide();"/>
+                    </h:form>
+                </p:dialog>
+            </h:body> 
+        </ui:define>
+    </ui:composition>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../Template/PlantillaI.xhtml">
+
+            <ui:define name="content">
+                <h:body>
+
+                    <h:form id="form">
+                        <br></br>
+                        <center> <b><i><H2>Ayuda a los Padres</H2></i></b></center>
+                        <br></br>
+                        <p:dataTable id="table" value="#{ayudaC.listaHelp}" var="lista" >
+                            <p:column headerText="DNI">                            
+                                <h:outputText value="#{lista.DNIPER}" />
+                            </p:column>
+
+                            <p:column headerText="Consulta del Padre">                            
+                                <h:outputText value="#{lista.CONSULT}" />
+                            </p:column>
+
+                        </p:dataTable>                    
+                    </h:form>
+
+                </h:body>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

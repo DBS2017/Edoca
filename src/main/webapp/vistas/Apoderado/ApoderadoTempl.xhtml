@@ -1,0 +1,227 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <body>
+
+    <ui:composition template="../Template/PlantillaI.xhtml">
+
+        <ui:define name="content">
+
+            <h:body>
+                <p:growl showDetail="true" id="messages" >
+                    <p:autoUpdate/>
+                </p:growl>
+                <h:form id="form">
+                    <br></br>
+                    <center> <b><i><H2>REGISTRO DE APODERADOS</H2></i></b></center>
+                    <br></br>
+                    <p:dataTable  value="#{apoderadoCon.listadoApo}"
+                                  filteredValue="#{apoderadoCon.filterApo}"
+                                  var="lista" id="dtTable" emptyMessage="REGISTRO NO ENCONTRADO, ASEGURESE DE HABER REGISTRADO AL APODERADO."
+                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                  paginator="true" rows="10" widgetVar="wdlaData">
+
+                        <f:facet name="header">
+                            <br></br>
+                            <p:commandButton value="Agregar Registro" 
+                                             style="background: azure"
+                                             oncomplete="PF('wdlgRegistrar').show();" 
+                                             icon="ui-icon-pencil" 
+                                             update=":dlgRegistrar"
+                                             actionListener="#{apoderadoCon.setAccionApo('Registrar')}"/>
+                            <br></br>
+                            <br></br>
+
+                        </f:facet>            
+
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="BUSCAR APODERADO:   "/>
+                                <p:inputText id="globalFilter" onkeyup="PF('wdlaData').filter()" />
+                            </p:outputPanel>
+                            <br></br>
+                        </f:facet>
+
+                        <p:column filterBy="#{lista.apeApo}, #{lista.nomApo}" style="width: 80px;font-size: 12px"  headerText="APELLIDOS Y NOMBRE(S)" filterMatchMode="contains">
+                            <h:outputText value="#{lista.apeApo}, #{lista.nomApo}"/>
+                        </p:column>
+
+                        <p:column filterBy="#{lista.dniApo}" style="width: 28px; text-align: center;font-size: 12px"  headerText="DNI" filterMatchMode="contains" >
+                            <h:outputText value="#{lista.dniApo}" />
+                        </p:column>
+
+                        <p:column style="width: 28px; text-align: center;font-size: 12px"  headerText="SEXO" >
+                            <center>
+                                <h:outputText value="#{lista.sexApo eq 'M' ? 'Masculino' :''}"/>
+                                <h:outputText value="#{lista.sexApo eq 'F' ? 'Femenino' :''}"/>   
+                            </center>
+                        </p:column>  
+
+                        <p:column style="width: 40px;font-size: 12px"  headerText="OCUPACIÓN">                 
+                            <h:outputText value="#{lista.ocuApo}"/>
+                        </p:column>
+
+                        <p:column style="width: 30px; text-align: center; font-size: 12px"  headerText="CELULAR">                 
+                            <h:outputText value="#{lista.celApo}"/>
+                        </p:column>
+
+                        <p:column style="width: 80px; font-size: 12px"  headerText="DIRECCIÓN">                 
+                            <h:outputText value="#{lista.dirApo}"/>
+                        </p:column>
+
+                        <p:column style="width: 100px; font-size: 12px"  headerText="UBIGEO">                 
+                            <h:outputText value="#{lista.nombreUbi}"/>
+                        </p:column>
+
+                        <p:column  style="width: 10px"><!--MODIFICAR REGISTRO-->
+                            <p:commandButton id="Modificar"
+                                             style="background: #14b4fc"
+                                             icon="ui-icon-pencil" 
+                                             actionListener="#{apoderadoCon.leerApoderado(lista.idApo)}" 
+                                             oncomplete="if(args &amp;&amp; !args.validationFailed)PF('wdlgDatos').show();"
+                                             update=":dlgDatos">
+                                <p:tooltip style="background: ligthcyan" for="Modificar" value="MODIFICAR"
+                                           showEffect="clip" hideEffect="explode" position="left"/>                  
+                            </p:commandButton>
+                        </p:column> 
+
+                        <p:column style="width: 10px"> <!--ELIMINAR REGISTRO-->
+                            <p:commandButton id="Eliminar"
+                                             style="background: #FF5722"
+                                             icon="ui-icon-trash" 
+                                             actionListener="#{apoderadoCon.eliminar(lista)}" 
+                                             update="dtTable">
+                                <p:tooltip  style="background-color: salmon" for="Eliminar" value="ELIMINAR"
+                                            showEffect="clip" hideEffect="explode" position="left"/>
+                                <p:confirm header="CONFIRMACIÓN:" message="¿DESEA ELIMINAR REGISTRO? " icon="ui-icon-alert" />
+                            </p:commandButton>
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" 
+                                                 icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" 
+                                                 icon="ui-icon-close" />
+                            </p:confirmDialog>                                             
+                        </p:column>
+
+                        <f:facet name="footer">
+                            En total hay #{fn:length(apoderadoCon.listadoApo)} registros.
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+
+                <!--FORMULARIO PARA MODIFICAR LOS DATOS DEL APODERADO-->
+                <p:dialog showEffect="explode" modal="false" hideEffect="explode" id="dlgDatos" widgetVar="wdlgDatos">
+                    <h3 align="center" > <b><i>ACTUALIZAR DATOS:</i></b></h3>
+                    <h:form>             
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="NOMBRE(S)"/>
+                            <p:inputText value="#{apoderadoCon.apoderado.nomApo}" required="true" requiredMessage="INGRESE NOMBRES" maxlength="80">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="APELLIDOS"/>
+                            <p:inputText value="#{apoderadoCon.apoderado.apeApo}" required="true" requiredMessage="INGRESE APELLIDOS" maxlength="80">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="DNI"/>
+                            <p:inputText value="#{apoderadoCon.apoderado.dniApo}" required="true" requiredMessage="INGRESE DNI" maxlength="8">
+                                <f:validator validatorId="validarExistenciaApoderado" />
+                                <p:keyFilter regEx="/[0-9]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="OCUPACIÓN"/>
+                            <p:inputText value="#{apoderadoCon.apoderado.ocuApo}" required="true" requiredMessage="INGRESE OCUPACIÓN" maxlength="100">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="CELULAR"/>
+                            <p:inputText value="#{apoderadoCon.apoderado.celApo}" required="true" requiredMessage="INGRESE N° DE CELULAR" maxlength="9">
+                                <p:keyFilter regEx="/[0-9]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="DIRECCIÓN"/>
+                            <p:inputText value="#{apoderadoCon.apoderado.dirApo}" required="true" requiredMessage="INGRESE DIRECCIÓN" maxlength="350"/>
+
+                            <p:outputLabel value="SEXO"/>
+                            <h:selectOneMenu id="Sexo" value="#{apoderadoCon.apoderado.sexApo}" required="true" requiredMessage="SELECCIONE SEXO" label="Sexo">
+                                <f:selectItem itemLabel="Seleccione Sexo" itemValue="" noSelectionOption="true" />
+                                <f:selectItem itemLabel="M" itemValue="M" />
+                                <f:selectItem itemLabel="F" itemValue="F" />
+                            </h:selectOneMenu>
+
+                            <p:outputLabel value="UBIGEO" for="Ubi"/>
+                            <p:autoComplete id="Ubi" maxResults="5" forceSelection="true" value="#{apoderadoCon.apoderado.nombreUbi}" completeMethod="#{ubigeoCon.completeTextUbi}" required="true" requiredMessage="SELECCIONE UBIGEO"/>
+                        </p:panelGrid>
+
+                        <p:commandButton value="#{apoderadoCon.accionApo}" 
+                                         actionListener="#{apoderadoCon.operarApoderado()}" 
+                                         update="dlgDatos :form:dtTable"/>
+                        <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();"/>
+                    </h:form>
+                </p:dialog>
+
+                <!--FORMULARIO PARA REGISTRAR LOS DATOS DEL APODERADO-->
+                <p:dialog showEffect="explode" modal="false" hideEffect="explode" id="dlgRegistrar" widgetVar="wdlgRegistrar">
+                    <h3 align="center" > <b><i>INGRESAR DATOS:</i></b></h3>
+                    <h:form>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="NOMBRE(S)"/>
+                            <p:inputText value="#{apoderadoCon.apoderado.nomApo}" required="true" requiredMessage="INGRESE NOMBRES" maxlength="80">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="APELLIDOS"/>
+                            <p:inputText value="#{apoderadoCon.apoderado.apeApo}" required="true" requiredMessage="INGRESE APELLIDOS" maxlength="80">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="DNI"/>
+                            <p:inputText value="#{apoderadoCon.apoderado.dniApo}" required="true" requiredMessage="INGRESE DNI" maxlength="8">
+                                <f:validator validatorId="validarExistenciaApoderado" />
+                                <p:keyFilter regEx="/[0-9]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="OCUPACIÓN"/>
+                            <p:inputText value="#{apoderadoCon.apoderado.ocuApo}" required="true" requiredMessage="INGRESE OCUPACIÓN" maxlength="100">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="DIRECCIÓN"/>
+                            <p:inputText value="#{apoderadoCon.apoderado.dirApo}" required="true" requiredMessage="INGRESE DIRECCIPON" maxlength="350"/>
+
+                            <p:outputLabel value="CELULAR"/>
+                            <p:inputText value="#{apoderadoCon.apoderado.celApo}" required="true" requiredMessage="INGRESE N° DE CELULAR" maxlength="9">
+                                <p:keyFilter regEx="/[0-9]/"/>
+                            </p:inputText>
+
+
+                            <p:outputLabel for="sexo" value="SEXO" />
+                            <p:selectOneRadio id="sexo" value="#{apoderadoCon.apoderado.sexApo}" required="true" requiredMessage="SELECCIONE SEXO">
+                                <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                <f:selectItem itemLabel="Femenino" itemValue="F" />
+                            </p:selectOneRadio>
+
+                            <p:outputLabel value="UBIGEO"/>
+                            <p:autoComplete id="Ubi" maxResults="5" forceSelection="true" value="#{apoderadoCon.apoderado.nombreUbi}"  completeMethod="#{ubigeoCon.completeTextUbi}" required="true" requiredMessage="INGRESE UBIGEO"/>
+
+                        </p:panelGrid>
+
+                        <p:commandButton value="Registrar" 
+                                         actionListener="#{apoderadoCon.registrar()}" 
+                                         oncomplete=" if(args &amp;&amp; !args.validationFailed)PF('wdlgRegistrar').hide();"
+                                         update=":form:dtTable"/>                                     
+                        <p:commandButton value="Cancelar" immediate="true" oncomplete=" PF('wdlgRegistrar').hide();"/>
+                    </h:form>
+                </p:dialog>
+            </h:body> 
+        </ui:define>
+    </ui:composition>
+</body>
+</html>

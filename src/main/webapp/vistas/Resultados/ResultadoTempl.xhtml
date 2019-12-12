@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:body>
+
+        <ui:composition template="./../Template/PlantillaI.xhtml">
+
+            <ui:define name="content">
+                <f:event listener="#{resultadosC.listadoPorEstu(loginC.usuario.codProf)}" type="preRenderView" />
+                <h:form >
+                    <center><h1>Promedios de Estudiante</h1></center> 
+                    <br/>
+
+                    <p:tabView>
+                        <p:tab title="Tareas Darias"><font></font>
+                            <p:dataTable value="#{resultadosC.listEstu}" var="list" id="dtTAble" >
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Curso: " groupRow="true">                            
+                                    <h:outputText value="#{list.nomCur}" />
+                                </p:column>
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Nota: ">
+                                    <h:outputText value="#{list.nota}" />
+                                </p:column>
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Criterio: " >
+                                    <h:outputText value="#{list.NOMCRI}"/>
+                                </p:column>
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Fecha: " >
+                                    <h:outputText value="#{list.FECREG}" />
+                                </p:column>
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Promedio" groupRow="true">
+                                    <p:repeat value="#{list.promedio}" var="lisa" >
+                                        <h:outputText id="select" value="#{lisa.proFinal}"/>       
+                                        <br/>
+                                    </p:repeat>                                                            
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab><font></font>
+
+                        <p:tab title="Ex. Diarias"><font></font>
+                            <p:dataTable value="#{resultadosC.listEstu2}" var="list" id="dtTAble2" >
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Curso: " groupRow="true">                            
+                                    <h:outputText value="#{list.nomCur}" />
+                                </p:column>
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Nota: ">
+                                    <h:outputText value="#{list.nota}" />
+                                </p:column>
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Criterio: " >
+                                    <h:outputText value="#{list.NOMCRI}"/>
+                                </p:column>
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Fecha: " >
+                                    <h:outputText value="#{list.FECREG}" />
+                                </p:column>
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Promedio" groupRow="true">
+                                    <p:repeat value="#{list.promedio}" var="lisa" >
+                                        <h:outputText id="select" value="#{lisa.proFinal}"/>       
+                                        <br/>
+                                    </p:repeat>                                                            
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab><font></font>
+
+                        <p:tab title="Rev. Cuadernos"><font></font>
+                            <p:dataTable value="#{resultadosC.listEstu3}" var="list" id="dtTAble3" >
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Curso: " groupRow="true">                            
+                                    <h:outputText value="#{list.nomCur}" />
+                                </p:column>
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Nota: ">
+                                    <h:outputText value="#{list.nota}" />
+                                </p:column>
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Criterio: " >
+                                    <h:outputText value="#{list.NOMCRI}"/>
+                                </p:column>
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Fecha: " >
+                                    <h:outputText value="#{list.FECREG}" />
+                                </p:column>
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Promedio" groupRow="true">
+                                    <p:repeat value="#{list.promedio}" var="lisa" >
+                                        <h:outputText id="select" value="#{lisa.proFinal}"/>       
+                                        <br/>
+                                    </p:repeat>                                                            
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab><font></font>
+
+                        <p:tab title="Ex. Mensual"><font></font>
+                            <p:dataTable value="#{resultadosC.listEstu4}" var="list" id="dtTAble4" >
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Curso: " groupRow="true">                            
+                                    <h:outputText value="#{list.nomCur}" />
+                                </p:column>
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Nota: ">
+                                    <h:outputText value="#{list.nota}" />
+                                </p:column>
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Criterio: " >
+                                    <h:outputText value="#{list.NOMCRI}"/>
+                                </p:column>
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Fecha: " >
+                                    <h:outputText value="#{list.FECREG}" />
+                                </p:column>
+
+                                <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Promedio" groupRow="true">
+                                    <p:repeat value="#{list.promedio}" var="lisa" >
+                                        <h:outputText id="select" value="#{lisa.proFinal}"/>       
+                                        <br/>
+                                    </p:repeat>                                                            
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab><font></font>
+
+                    </p:tabView>
+
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>

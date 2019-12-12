@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Cursos</title>
+    </h:head>
+    <h:form>
+        <p:tabMenu activeIndex="#{param.i}">
+
+            <p:menuitem value="Estudiante" outcome="/vistas/Estudiante/ListEstudiante" icon="pi pi-star">
+                <f:param name="i" value="0" />
+            </p:menuitem>
+
+
+            <p:menuitem value="Personal" outcome="/vistas/Personal/ListPersonal" icon="pi pi-search">                
+                <f:param name="i" value="1" />
+            </p:menuitem>
+
+            <p:menuitem value="Apoderado" outcome="/vistas/Apoderado/ListApoderado" icon="pi pi-file">
+                <f:param name="i" value="2" />
+            </p:menuitem>
+
+            <p:menuitem value="Asignación de Cursos a Aulas" outcome="/vistas/Curso_Aula/Curso_Aula" icon="pi pi-file">
+                <f:param name="i" value="3" />
+            </p:menuitem>
+
+            <p:menuitem value="Matriculas Estudiantes" outcome="/vistas/Matricula/Matricula" icon="pi pi-file">
+                <f:param name="i" value="4" />
+            </p:menuitem>
+
+            <p:menuitem value="Asignación de Tutores a Aulas" outcome="/vistas/Tutores/TutoresView" icon="pi pi-file">
+                <f:param name="i" value="5" />
+            </p:menuitem>
+
+            
+            <p:menuitem value="Asignación Profesores a Cursos" outcome="/vistas/Profesores_Cursos/AsignaciónCurso" icon="pi pi-file">
+                <f:param name="i" value="6" />
+            </p:menuitem>
+        </p:tabMenu>
+    </h:form>
+    
+    <h2 align="center">Asignar Curso</h2>
+    <p:growl showDetail="true" id="messages" >
+        <p:autoUpdate/>
+    </p:growl>
+    
+    <h:body>
+        <p:growl showDetail="true">
+            <p:autoUpdate/>
+        </p:growl>
+       
+        <center>
+        <h:form id="formIns">
+            <p:panelGrid columns="4">                              
+                <p:outputLabel value="Nombre"/>
+                <p:inputText value="#{personalCon.personal.nomPer}" maxlength="50" required="true" requiredMessage="Se requiere el Nombre"/>            
+                
+                <h:outputLabel for="Curso" value="Curso"/>
+                <p:selectOneMenu id="Estado" value="#{cursoCon.curso.NOMCUR}" effect="fold">
+                    <f:selectItem itemLabel="Seleccione Cursos" itemValue="" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="Aritmética" itemValue="Aritmética"/>
+                    <f:selectItem itemLabel="Algebra" itemValue="Algebra"/>
+                    <f:selectItem itemLabel="Geografía" itemValue="Geografia"/>
+                    <f:selectItem itemLabel="Trigonometría" itemValue="Trigonometria"/>
+                    <f:selectItem itemLabel="Física" itemValue="Física"/>
+                    <f:selectItem itemLabel="Química" itemValue="Química"/>
+                    <f:selectItem itemLabel="Biología" itemValue="Biología"/>
+                    <f:selectItem itemLabel="Razonamiento Matemático" itemValue="Razonamiento Matemático"/>
+                    <f:selectItem itemLabel="Lenguaje" itemValue="Lenguaje"/>
+                    <f:selectItem itemLabel="Literatura" itemValue="Literatura"/>
+                    <f:selectItem itemLabel="Historia Universal" itemValue="Historia Universal"/>
+                    <f:selectItem itemLabel="Historia del Perú" itemValue="Historia del Perú"/>
+                    <f:selectItem itemLabel="Economía" itemValue="Economía"/>
+                    <f:selectItem itemLabel="Filosofía" itemValue="Filosofía"/>
+                    <f:selectItem itemLabel="Psicología" itemValue="Psicología"/>                                                                             
+                </p:selectOneMenu>               
+            </p:panelGrid>
+            
+            <p:commandButton value="Asignar Registro" actionListener="#{cursoCon.registrar()}"/>
+        </h:form>
+            </center>
+    </h:body>
+</html>

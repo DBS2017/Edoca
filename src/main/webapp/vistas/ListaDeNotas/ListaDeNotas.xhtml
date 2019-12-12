@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <body>
+
+    <h:body>
+        <ui:composition template="../Template/PlantillaI.xhtml">
+
+            <ui:define name="content">
+                <br></br>
+                <center> <b><i><H2>PROMEDIO DE NOTAS</H2></i></b></center>
+                <br></br>
+                <br></br>
+
+                <!--BIMESTRE1-->
+                <p:tabView>
+
+                    <p:tab title="BIMESTRE 1">
+                        <h:form id="form1">
+                            <p:dataTable value="#{ListaDeNotasC.listarB3}"
+                                         filteredValue="#{ListaDeNotasC.filtrodebusqueda}"
+                                         var="lista"
+                                         id="dtTable"
+                                         rows="25"
+                                         emptyMessage="Aún no hay notas registradas en esta sección..."
+                                         style="margin-bottom: 20px"
+                                         paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                         paginator="true" >
+
+                                <p:column filterBy="#{lista.GRADO}" headerText="GRADO" style="width: 80px;font-size: 15px">
+                                    <center>
+                                        <h:outputText value="#{lista.GRADO}" />                                        
+                                    </center>
+                                </p:column> 
+                                <p:column filterBy="#{lista.SECCIÓN}" headerText="SECCIÓN" style="width: 80px;font-size: 15px">
+                                    <center>
+                                        <h:outputText value="#{lista.SECCIÓN}" />
+                                    </center>
+                                </p:column>                                
+                                <p:column filterBy="#{lista.ESTUDIANTE}" headerText="ESTUDIANTE" style="width: 200px;font-size: 15px">
+                                    <h:outputText value="#{lista.ESTUDIANTE}" />
+                                </p:column>      
+                                <p:column filterBy="#{lista.CURSO}" headerText="CURSO" style="width: 120px;font-size: 15px">
+                                    <h:outputText value="#{lista.CURSO}"  />
+                                </p:column>
+                                <p:column filterBy="#{lista.BIMESTRE1}" headerText="PROMEDIO" sortBy="#{lista.BIMESTRE1}" style="width: 100px;font-size: 15px">
+                                    <center>
+                                        <h:outputText value="#{lista.BIMESTRE1}"  />
+                                    </center>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:tab>
+
+
+                    <!--BIMESTRE2-->
+                    <p:tab title="BIMESTRE 2">
+                        <h:form id="form2">
+                            <p:dataTable value="#{ListaDeNotasC.listarB3}"
+                                         filteredValue="#{ListaDeNotasC.filtrodebusqueda}"
+                                         var="lista"
+                                         id="dtTable"
+                                         rows="25"
+                                         emptyMessage="Aún no hay notas registradas en esta sección..."
+                                         style="margin-bottom: 20px"
+                                         paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                         paginator="true" >
+
+                                <p:column filterBy="#{lista.GRADO}" headerText="GRADO" style="width: 80px;font-size: 15px">
+                                    <center>
+                                        <h:outputText value="#{lista.GRADO}" />                                        
+                                    </center>
+                                </p:column> 
+                                <p:column filterBy="#{lista.SECCIÓN}" headerText="SECCIÓN" style="width: 80px;font-size: 15px">
+                                    <center>
+                                        <h:outputText value="#{lista.SECCIÓN}" />
+                                    </center>
+                                </p:column>                                
+                                <p:column filterBy="#{lista.ESTUDIANTE}" headerText="ESTUDIANTE" style="width: 200px;font-size: 15px">
+                                    <h:outputText value="#{lista.ESTUDIANTE}" />
+                                </p:column>      
+                                <p:column filterBy="#{lista.CURSO}" headerText="CURSO" style="width: 120px;font-size: 15px">
+                                    <h:outputText value="#{lista.CURSO}"  />
+                                </p:column>
+                                <p:column filterBy="#{lista.BIMESTRE2}" headerText="PROMEDIO" sortBy="#{lista.BIMESTRE2}" style="width: 100px;font-size: 15px">
+                                    <center>
+                                        <h:outputText value="#{lista.BIMESTRE2}"  />
+                                    </center>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:tab>
+
+                    <!--BIMESTRE3-->
+                    <p:tab title="BIMESTRE 3">
+                        <h:form id="form3">
+                            <p:dataTable value="#{ListaDeNotasC.listarB3}"
+                                         filteredValue="#{ListaDeNotasC.filtrodebusqueda}"
+                                         var="lista"
+                                         id="dtTable"
+                                         rows="25"
+                                         emptyMessage="Aún no hay notas registradas en esta sección..."
+                                         style="margin-bottom: 20px"
+                                         paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                         paginator="true" >
+
+                                <p:column filterBy="#{lista.GRADO}" headerText="GRADO" style="width: 80px;font-size: 15px">
+                                    <center>
+                                        <h:outputText value="#{lista.GRADO}" />                                        
+                                    </center>
+                                </p:column> 
+                                <p:column filterBy="#{lista.SECCIÓN}" headerText="SECCIÓN" style="width: 80px;font-size: 15px">
+                                    <center>
+                                        <h:outputText value="#{lista.SECCIÓN}" />
+                                    </center>
+                                </p:column>                                
+                                <p:column filterBy="#{lista.ESTUDIANTE}" headerText="ESTUDIANTE" style="width: 200px;font-size: 15px">
+                                    <h:outputText value="#{lista.ESTUDIANTE}" />
+                                </p:column>      
+                                <p:column filterBy="#{lista.CURSO}" headerText="CURSO" style="width: 120px;font-size: 15px">
+                                    <h:outputText value="#{lista.CURSO}"  />
+                                </p:column>
+                                <p:column filterBy="#{lista.BIMESTRE3}" headerText="PROMEDIO" sortBy="#{lista.BIMESTRE3}" style="width: 100px;font-size: 15px">
+                                    <center>
+                                        <h:outputText value="#{lista.BIMESTRE3}"  />
+                                    </center>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:tab>
+
+
+                    <!--BIMESTRE4-->
+                    <p:tab title="BIMESTRE 4">
+                        <h:form id="form4">
+                            <p:dataTable value="#{ListaDeNotasC.listarB3}"
+                                         filteredValue="#{ListaDeNotasC.filtrodebusqueda}"
+                                         var="lista"
+                                         id="dtTable"
+                                         rows="25"
+                                         emptyMessage="Aún no hay notas registradas en esta sección..."
+                                         style="margin-bottom: 20px"
+                                         paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                         paginator="true" >
+
+                                <p:column filterBy="#{lista.GRADO}" headerText="GRADO" style="width: 80px;font-size: 15px">
+                                    <center>
+                                        <h:outputText value="#{lista.GRADO}" />                                        
+                                    </center>
+                                </p:column> 
+                                <p:column filterBy="#{lista.SECCIÓN}" headerText="SECCIÓN" style="width: 80px;font-size: 15px">
+                                    <center>
+                                        <h:outputText value="#{lista.SECCIÓN}" />
+                                    </center>
+                                </p:column>                                
+                                <p:column filterBy="#{lista.ESTUDIANTE}" headerText="ESTUDIANTE" style="width: 200px;font-size: 15px">
+                                    <h:outputText value="#{lista.ESTUDIANTE}" />
+                                </p:column>      
+                                <p:column filterBy="#{lista.CURSO}" headerText="CURSO" style="width: 120px;font-size: 15px">
+                                    <h:outputText value="#{lista.CURSO}"  />
+                                </p:column>
+                                <p:column filterBy="#{lista.BIMESTRE4}" headerText="PROMEDIO" sortBy="#{lista.BIMESTRE4}" style="width: 100px;font-size: 15px">
+                                    <center>
+                                        <h:outputText value="#{lista.BIMESTRE4}"  />
+                                    </center>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:tab>
+
+                    <!--BIMESTRE5-->
+                    <p:tab title="BIMESTRE 5">
+                        <h:form id="form5">
+                            <p:dataTable value="#{ListaDeNotasC.listarB3}"
+                                         filteredValue="#{ListaDeNotasC.filtrodebusqueda}"
+                                         var="lista"
+                                         id="dtTable"
+                                         rows="25"
+                                         emptyMessage="Aún no hay notas registradas en esta sección..."
+                                         style="margin-bottom: 20px"
+                                         paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                         paginator="true" >
+
+                                <p:column filterBy="#{lista.GRADO}" headerText="GRADO" style="width: 80px;font-size: 15px">
+                                    <center>
+                                        <h:outputText value="#{lista.GRADO}" />                                        
+                                    </center>
+                                </p:column> 
+                                <p:column filterBy="#{lista.SECCIÓN}" headerText="SECCIÓN" style="width: 80px;font-size: 15px">
+                                    <center>
+                                        <h:outputText value="#{lista.SECCIÓN}" />
+                                    </center>
+                                </p:column>                                
+                                <p:column filterBy="#{lista.ESTUDIANTE}" headerText="ESTUDIANTE" style="width: 200px;font-size: 15px">
+                                    <h:outputText value="#{lista.ESTUDIANTE}" />
+                                </p:column>      
+                                <p:column filterBy="#{lista.CURSO}" headerText="CURSO" style="width: 120px;font-size: 15px">
+                                    <h:outputText value="#{lista.CURSO}"  />
+                                </p:column>
+                                <p:column filterBy="#{lista.BIMESTRE5}" headerText="PROMEDIO" sortBy="#{lista.BIMESTRE5}" style="width: 100px;font-size: 15px">
+                                    <center>
+                                        <h:outputText value="#{lista.BIMESTRE5}"  />
+                                    </center>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:tab>
+                </p:tabView>
+
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</body>
+</html>

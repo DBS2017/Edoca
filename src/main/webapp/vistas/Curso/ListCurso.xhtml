@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:head>
+        <title>Curso</title>
+    </h:head>
+    <h:form>
+        <p:tabMenu activeIndex="#{param.i}">
+
+            <p:menuitem value="Estudiante" outcome="/vistas/Estudiante/ListEstudiante" icon="pi pi-star">
+                <f:param name="i" value="0" />
+            </p:menuitem>
+
+
+            <p:menuitem value="Personal" outcome="/vistas/Personal/ListPersonal" icon="pi pi-file">                
+                <f:param name="i" value="1" />
+            </p:menuitem>
+
+            <p:menuitem value="Apoderado" outcome="/vistas/Apoderado/ListApoderado" icon="pi pi-file">
+                <f:param name="i" value="2" />
+            </p:menuitem>
+
+            <p:menuitem value="Curso" outcome="/vistas/Curso/ListCurso" icon="pi pi-search">
+                <f:param name="i" value="3" />
+            </p:menuitem>
+
+            <p:menuitem value="Asignación de Cursos a Aulas" outcome="/vistas/Curso_Aula/Curso_Aula" icon="pi pi-file">
+                <f:param name="i" value="4" />
+            </p:menuitem>
+
+            <p:menuitem value="Matriculas Estudiantes" outcome="/vistas/Matricula/Matricula" icon="pi pi-file">
+                <f:param name="i" value="5" />
+            </p:menuitem>
+
+            <p:menuitem value="Asignación de Tutores a Aulas" outcome="/vistas/Tutores/TutoresView" icon="pi pi-file">
+                <f:param name="i" value="6" />
+            </p:menuitem>
+
+            <p:menuitem value="Asignación Profesores a Cursos" outcome="/vistas/Profesores_Cursos/AsignaciónCurso" icon="pi pi-file">
+                <f:param name="i" value="7" />
+            </p:menuitem>
+
+        </p:tabMenu>
+    </h:form>
+
+    <h:form>
+        <h:form id="formCurso"> 
+            <h3 style="margin-top:1" align="center" > <b><i><H1>CURSO</H1></i></b></h3>
+        </h:form>
+    </h:form>
+
+    <h:body>
+        <p:growl life="1500" />
+        <h:form id="formCurso">               
+            <p:accordionPanel>
+                <p:tab title="AGREGAR" >
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="Nombre"/>
+                        <p:inputText value="#{cursoCon.curso.NOMCUR}" maxlength="50" required="true" requiredMessage="Ingrese el Nombre">
+                            <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                        </p:inputText>                        
+                        <p:commandButton value="REGISTRAR" actionListener="#{cursoCon.registrar()}" update="formCurso tablaCurso" />
+                    </p:panelGrid>
+                </p:tab>
+            </p:accordionPanel>
+        </h:form>
+
+        <p:spacer/>
+        <h:form id="tablaCurso">
+            <p:dataTable id="tblCurso" var="curso" value="#{cursoCon.listadoCur}" rowKey="#{curso.CODCUR}"
+                         selection="#{cursoCon.curso}" selectionMode="single" rows="30" paginator="true"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="10,20" >             
+
+
+
+                <p:column headerText="NOMBRE" >
+                    <h:outputText value="#{curso.NOMCUR}"/>
+                </p:column>
+
+                <p:column headerText="ESTADO">
+                    <h:outputText value="#{curso.ESTCUR}"/>
+                </p:column>
+
+
+                <f:facet name="footer">
+                    En Total hay #{fn:length(cursoCon.listadoCur)} Registros.
+                </f:facet>
+            </p:dataTable>
+            <p:contextMenu for="tblCurso">
+                <p:menuitem value="Modificar" update="cursoo" oncomplete="PF('cursodlg').show()"/>
+                <p:menuitem value="Eliminar" update="tblCurso" icon="pi pi-times" actionListener="#{cursoCon.eliminar()}">
+                    <p:confirm header="Confirmación" message="¿Desea eliminar Registro?" icon="pi pi-exclamation-triangle" />
+                </p:menuitem>
+            </p:contextMenu>
+        </h:form>
+
+
+        <p:dialog header="Car Info" widgetVar="cursodlg" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <h:form id="cursoo">
+
+                <p:panelGrid columns="2">
+
+                    <p:outputLabel value="Nombre"/>
+                    <p:inputText value="#{cursoCon.curso.NOMCUR}" maxlength="50" required="true" requiredMessage="Ingrese el Nombre">
+                        <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                    </p:inputText> 
+
+                    <p:commandButton value="MODIFICAR" actionListener="#{cursoCon.modificar()}" update="tablaCurso tablaCurso" oncomplete="PF('cursodlg').hide()"/>
+                    <p:commandButton value="CANCELAR"  oncomplete="PF('cursodlg').hide()"/>
+                </p:panelGrid>         
+            </h:form>
+        </p:dialog>
+
+
+
+        <h:form>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+            </p:confirmDialog>  
+        </h:form>
+    </h:body>
+</html>
+

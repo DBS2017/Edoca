@@ -1,0 +1,255 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+
+    <body>
+
+    <ui:composition template="../Template/PlantillaI.xhtml">
+        <ui:define name="content">
+            <h:form id="formPersonal"> 
+            </h:form>               
+
+            <h:body>
+                <p:growl showDetail="true" id="messages"  >
+                    <p:autoUpdate/>
+                </p:growl>
+                <h:form id="form">
+                    <br></br>
+                    <center> <b><i><H2>REGISTRO DE PERSONAL</H2></i></b></center>
+                    <br></br>
+                    <p:dataTable value="#{personalCon.listadoPer}" filteredValue="#{personalCon.filterPers}" var="lis" id="dtTable"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                 paginator="true" rows="10" style="margin-bottom:80px" widgetVar="wdlaData"
+                                 emptyMessage="REGISTRO NO ENCONTRADO, ASEGURESE DE HABER REGISTRADO AL PERSONAL.">
+
+                        <br></br>
+                        <f:facet name="header">
+                            <br></br>
+                            <p:commandButton value="Agregar Registro" 
+                                             style="background: azure"
+                                             oncomplete="PF('wdlgRegistrar').show();" 
+                                             icon="ui-icon-pencil"
+                                             update=":dlgRegistrar"/>
+                        </f:facet>
+
+                        <f:facet name="header">
+                            <br></br>
+                            <br></br>
+                            <p:outputPanel style="font-size: 15px">
+                                <h:outputText value="BUSCAR PERSONAL:"/>
+                                <p:inputText id="globalFilter" onkeyup="PF('wdlaData').filter()"/>
+                            </p:outputPanel>
+                            <br></br>
+                        </f:facet>
+
+                        <p:column style="width: 30px">
+                            <p:rowToggler />
+                        </p:column>
+
+                        <p:column filterBy="#{lis.dniPer}" style="width: 70px; text-align: center;font-size: 15px" headerText="DNI" filterMatchMode="contains" >
+                            <center>
+                                <h:outputText value="#{lis.dniPer}"/>
+                            </center>
+                        </p:column>
+
+                        <p:column filterBy="#{lis.apePer}, #{lis.nomPer}" style="width: 180px; font-size: 15px" headerText="APELLIDOS Y NOMBRES" filterMatchMode="contains">
+                            <h:outputText value="#{lis.apePer}, #{lis.nomPer} "/>                          
+                        </p:column>
+
+                        <p:column style="width: 60px; font-size: 15px" headerText="CARGO">
+                            <h:outputText value="#{lis.carPer eq '1' ? 'Director': '' }"/>
+                            <h:outputText value="#{lis.carPer eq '2' ? 'Tutor': '' }"/>
+                            <h:outputText value="#{lis.carPer eq '3' ? 'Profesor': '' }"/>
+                        </p:column>
+
+                        <p:column style="width: 80px; text-align: center;font-size: 15px" headerText="SEXO">
+                            <h:outputText value="#{lis.sexPer eq 'M' ? 'Masculino' :''}"/>
+                            <h:outputText value="#{lis.sexPer eq 'F' ? 'Femenino' :''}"/>
+                        </p:column>
+
+                        <p:column style="width: 200px; font-size: 15px"  headerText="CORREO">
+                            <h:outputText value="#{lis.corPer}"/>
+                        </p:column>
+
+                        <p:column style="width: 75px; text-align: center;font-size: 15px" headerText="CELULAR">
+                            <h:outputText value="#{lis.celPer}"/>
+                        </p:column>
+
+                        <p:rowExpansion>
+                            <p:panelGrid columns="2" columnClasses="label, value" style="width:300px">
+                                <h:outputText value="USUARIO"/>
+                                <h:outputText value="#{lis.usuPer} "/>
+                            </p:panelGrid>
+
+                            <p:panelGrid columns="2" columnClasses="label, value" style="width:300px">
+                                <h:outputText value="CONTRASEÑA"/>
+                                <h:outputText value="#{lis.contPer}"/>
+                            </p:panelGrid>
+                        </p:rowExpansion>
+
+
+
+                        <p:column style="width: 40px"> <!--MODIFICAR REGISTRO-->
+                            <p:commandButton id="Modificar"
+                                             icon="ui-icon-pencil"
+                                             style="background: #14b4fc"
+                                             actionListener="#{personalCon.leerPersonal(lis.idPer)}" 
+                                             oncomplete="if(args &amp;&amp; !args.validationFailed)PF('wdlgModificar').show();"
+                                             update=":dlgModificar">
+                                <p:tooltip style="background: ligthcyan" for="Modificar" value="MODIFICAR"
+                                           showEffect="clip" hideEffect="explode" position="left"/>
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column style="width: 40px"> <!--ELIMINAR REGISTRO-->
+                            <p:commandButton id="Eliminar"  
+                                             icon="ui-icon-trash" 
+                                             style="background: #FF5722"
+                                             actionListener="#{personalCon.eliminar(lis)}" 
+                                             update="dtTable">
+                                <p:tooltip  style="background-color: salmon" for="Eliminar" value="ELIMINAR"
+                                            showEffect="clip" hideEffect="explode" position="left"/>
+                                <p:confirm header="CONFIRMACIÓN:" message="¿DESEA ELIMINAR REGISTRO? " icon="ui-icon-alert" />
+                            </p:commandButton>
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" 
+                                                 icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" 
+                                                 icon="ui-icon-close" />
+                            </p:confirmDialog>     
+                        </p:column> 
+
+                        <f:facet name="footer">
+                            En total hay #{fn:length(personalCon.listadoPer)} registros.
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+
+                <!--FORMULARIO PARA REGISTRAR AL PERSONAL-->
+                <p:dialog showEffect="explode" modal="false"  hideEffect="explode" header="INGRESAR DATOS:" id="dlgRegistrar" widgetVar="wdlgRegistrar">
+                    <h:form id="Personal">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="NOMBRE(S)"/>
+                            <p:inputText value="#{personalCon.personal.nomPer}" maxlength="50" required="true" requiredMessage="Ingrese el Nombre">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="APELLIDOS"/>
+                            <p:inputText value="#{personalCon.personal.apePer}" maxlength="50" required="true" requiredMessage="Ingrese los Apellidos">
+                                <f:validator validatorId="validarExistenciaApoderado" />
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="DNI"/>
+                            <p:inputText value="#{personalCon.personal.dniPer}" maxlength="8" required="true" requiredMessage="Ingrese el DNI">
+                                <p:keyFilter regEx="/[0-9]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="CARGO"/>
+                            <p:selectOneMenu id="fami"  value="#{personalCon.personal.carPer}" style="width:200px" required="true" requiredMessage="Ingrese el Cargo">
+                                <f:selectItem itemLabel="Seleccione cargo" itemValue="" />
+                                <f:selectItem itemLabel="Director" itemValue="1" />
+                                <f:selectItem itemLabel="Profesor" itemValue="3" />
+                                <f:selectItem itemLabel="Tutor" itemValue="2" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="sexo" value="SEXO" />
+                            <p:selectOneRadio id="sexo" value="#{personalCon.personal.sexPer}" >
+                                <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                <f:selectItem itemLabel="Femenino" itemValue="F" />
+                            </p:selectOneRadio>
+
+                            <p:outputLabel value="CORREO ELECTRÓNICO"/>
+                            <p:inputText value="#{personalCon.personal.corPer}" maxlength="50"/>
+
+                            <p:outputLabel value="CELULAR"/>
+                            <p:inputText value="#{personalCon.personal.celPer}" maxlength="9">
+                                <p:keyFilter regEx="/[0-9]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="USUARIO"/>
+                            <p:inputText value="#{personalCon.personal.usuPer}" maxlength="9"/>
+
+                            <h:outputText value="CONTRASEÑA" />
+                            <p:password id="inlineFeedback" value="#{personalCon.personal.contPer}" feedback="true" inline="true" />
+
+                        </p:panelGrid>
+
+                        <p:commandButton value="Registrar" 
+                                         actionListener="#{personalCon.registrar()}" 
+                                         oncomplete=" if(args &amp;&amp; !args.validationFailed)PF('wdlgRegistrar').hide();"
+                                         update=":form:dtTable"/>                                     
+                        <p:commandButton value="Cancelar" immediate="true" oncomplete=" PF('wdlgRegistrar').hide();"/>
+                    </h:form>
+                </p:dialog>
+
+
+                <!--FORMULARIO PARA MODIFICAR LOS DATOS PERSONAL-->
+                <p:dialog showEffect="explode" modal="false"  hideEffect="explode" header="MODIFICAR DATOS:" id="dlgModificar" widgetVar="wdlgModificar">
+                    <h:form id="modiPer">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="NOMBRE(S)"/>
+                            <p:inputText value="#{personalCon.personal.nomPer}" maxlength="50" required="true" requiredMessage="Ingrese el Nombre">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="APELLIDOS"/>
+                            <p:inputText value="#{personalCon.personal.apePer}" maxlength="50" required="true" requiredMessage="Ingrese los Apellidos">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="DNI"/>
+                            <p:inputText value="#{personalCon.personal.dniPer}" maxlength="8" required="true" requiredMessage="Ingrese el DNI">
+                                <f:validator validatorId="validarExistenciaApoderado" />
+                                <p:keyFilter regEx="/[0-9]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="CARGO"/>
+                            <p:selectOneMenu id="fami"  value="#{personalCon.personal.carPer}" style="width:200px" required="true" requiredMessage="Ingrese el Cargo">
+                                <f:selectItem itemLabel="Seleccione cargo" itemValue="" />
+                                <f:selectItem itemLabel="Director" itemValue="1" />
+                                <f:selectItem itemLabel="Profesor" itemValue="3" />
+                                <f:selectItem itemLabel="Tutor" itemValue="2" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="sexo" value="SEXO" />
+                            <p:selectOneRadio id="sexo" value="#{personalCon.personal.sexPer}" >
+                                <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                <f:selectItem itemLabel="Femenino" itemValue="F" />
+                            </p:selectOneRadio>
+
+                            <p:outputLabel value="CORREO ELECTRÓNICO"/>
+                            <p:inputText value="#{personalCon.personal.corPer}" maxlength="50"/>
+
+                            <p:outputLabel value="CELULAR"/>
+                            <p:inputText value="#{personalCon.personal.celPer}" maxlength="9">
+                                <p:keyFilter regEx="/[0-9]/"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="USUARIO"/>
+                            <p:inputText value="#{personalCon.personal.usuPer}" maxlength="9"/>
+
+                            <h:outputText value="CONTRASEÑA" />
+                            <p:password id="inlineFeedback" value="#{personalCon.personal.contPer}" feedback="true" inline="true" />
+
+                        </p:panelGrid>
+
+                        <p:commandButton value="Modificar" 
+                                         actionListener="#{personalCon.modificarPersonal()}" oncomplete=" if(args &amp;&amp; !args.validationFailed)PF('wdlgModificar').hide();"
+                                         update="modiPer :form:dtTable"/>                                     
+                        <p:commandButton value="Cancelar" immediate="true" oncomplete=" PF('wdlgModificar').hide();"/>
+                    </h:form>
+                </p:dialog>
+            </h:body>
+        </ui:define>
+
+    </ui:composition>
+
+</body>
+</html>

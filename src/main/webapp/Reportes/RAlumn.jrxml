@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RAlumn" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="815c6bac-07fb-4649-b884-fdcb27588170">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="EdoocaOra"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="CODMAT" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT * FROM VW_REPO_NOTAS WHERE CODMAT =  $P{CODMAT} ]]>
+	</queryString>
+	<field name="CODCUR" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="CODCUR"/>
+	</field>
+	<field name="CODAUL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="CODAUL"/>
+	</field>
+	<field name="APEPER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="APEPER"/>
+	</field>
+	<field name="NOMPER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NOMPER"/>
+	</field>
+	<field name="SECCIONES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SECCIONES"/>
+	</field>
+	<field name="NOMCUR" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NOMCUR"/>
+	</field>
+	<field name="CODMAT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="CODMAT"/>
+	</field>
+	<field name="CODTUT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="CODTUT"/>
+	</field>
+	<field name="BIMESTRE1" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="BIMESTRE1"/>
+	</field>
+	<field name="BIMESTRE2" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="BIMESTRE2"/>
+	</field>
+	<field name="BIMESTRE3" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="BIMESTRE3"/>
+	</field>
+	<field name="BIMESTRE4" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="BIMESTRE4"/>
+	</field>
+	<field name="BIMESTRE5" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="BIMESTRE5"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="30" y="15" width="151" height="61" uuid="53fe9847-1856-4280-a501-c71787a326ed"/>
+				<textElement verticalAlignment="Middle">
+					<font size="40"/>
+				</textElement>
+				<text><![CDATA[Edooca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="10" width="289" height="50" uuid="35298b8b-1b48-4321-ad06-b8b2a586a615"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="26"/>
+				</textElement>
+				<text><![CDATA[Boletas de Estudiantes]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="52" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="5" width="180" height="40" uuid="2c06c750-ef86-4d34-98da-9af085d6618c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Nombre y Apellidos:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="190" y="10" width="150" height="30" uuid="68b2e8d3-d163-4566-84dd-358f1b11457d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMPER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="10" width="160" height="30" uuid="c1052596-7d6d-465b-b46e-c0c79ae8e746"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{APEPER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="670" y="10" width="100" height="30" uuid="6b89dc34-5038-4021-8d46-82aab150799e"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SECCIONES}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="520" y="10" width="150" height="30" uuid="7480b995-3508-4fcc-bf00-49605b92527f"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Grado y Seccion]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement x="270" y="0" width="100" height="30" uuid="c9317d43-01cf-4eac-ac75-c24f8a57f7db">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7b3a1f03-ed5d-4f6e-be87-8f232a8d36c0"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[BIMESTRE1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="0" width="98" height="30" uuid="64b49ebf-2418-466a-a107-4e781747d7fc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dc7f39cf-327e-49c1-b8a7-d8621e1127b3"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[BIMESTRE2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="469" y="0" width="98" height="30" uuid="457f9b41-9d09-4296-be50-c71571bb8294">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="746586be-cefb-4f3e-a643-793140a448da"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[BIMESTRE3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="569" y="0" width="98" height="30" uuid="36de670c-9a6e-4a92-b71b-9075bcc172f7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="35ba9d6a-5fb5-4e4a-b6bd-6821566eb4e8"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[BIMESTRE4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="670" y="0" width="98" height="30" uuid="455d61de-fb1d-4efd-b060-623ed64c947c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bef0d33f-9086-425e-ae70-926012159133"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[BIMESTRE5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="0" width="150" height="30" uuid="cf46a42b-2fb5-47fc-aae7-b81517d23e9d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e91a4acb-2d34-4b55-9ca4-dc7a26aa00f9"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Curso]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="270" y="0" width="100" height="30" uuid="506d64d4-faeb-4174-ad5a-bd26b5850519">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7b3a1f03-ed5d-4f6e-be87-8f232a8d36c0"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BIMESTRE1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="0" width="98" height="30" uuid="3d9121fa-74f9-49f7-b913-bba91125fb61">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dc7f39cf-327e-49c1-b8a7-d8621e1127b3"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BIMESTRE2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="469" y="0" width="98" height="30" uuid="5b07342b-85b4-4f71-acd7-a898485d6d39">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="746586be-cefb-4f3e-a643-793140a448da"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BIMESTRE3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="569" y="0" width="98" height="30" uuid="496841b0-fd3c-44df-9d5d-4a440e46aba4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="35ba9d6a-5fb5-4e4a-b6bd-6821566eb4e8"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BIMESTRE4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="670" y="0" width="98" height="30" uuid="df9390d3-aade-43b4-9bc9-e19c2c9d6ceb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bef0d33f-9086-425e-ae70-926012159133"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BIMESTRE5}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="0" width="150" height="30" uuid="9e82efc3-ebed-492e-ae96-a1c5d88ede96">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e91a4acb-2d34-4b55-9ca4-dc7a26aa00f9"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMCUR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50">
+			<staticText>
+				<reportElement x="490" y="20" width="309" height="20" uuid="adb20547-de61-4766-ba4e-bc456793cd47"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Sistema de Registro de notas y asistencias Edooca]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

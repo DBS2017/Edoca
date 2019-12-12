@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+        
+        <ui:composition template="./../Template/PlantillaI.xhtml">
+
+            <ui:define name="registro">
+                <li>
+                    <a>
+                        <i class="zmdi zmdi-male-alt zmdi-hc-fw"></i> Registro
+                    </a>
+                </li>
+            </ui:define>
+
+            <ui:define name="content">
+
+                <h1>Registros de Notas</h1>
+                <h:form id="prilcombo">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="NOMBRE DE CURSO"/>
+                        <p:selectOneMenu value="#{registroC.registro.codCur}" required="true" requiredMessage=" Curso Obligatorio">                       
+                            <f:selectItem itemLabel="Selecionar Curso" noSelectionOption="true"/>
+                            <f:selectItems value="#{registroC.listaPorCursos}" var="txtCursos" itemValue="#{txtCursos.codCur}" itemLabel="#{txtCursos.nomCur}"/>   
+                            <p:ajax event="change" listener="#{registroC.listarAula()}" update="AcAul"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="SELECCIONAR AULA"/>
+                        <p:selectOneMenu value="#{registroC.registro.codAul}" id="AcAul" required="true" requiredMessage=" Aula Obligatoria">
+                            <f:selectItem itemLabel="Selecionar Aula" noSelectionOption="true"/>
+                            <f:selectItems value="#{registroC.listaAula}" var="txtAula" itemValue="#{txtAula.codAul}" itemLabel="#{txtAula.nomAul}"/>
+                            <p:ajax event="change" listener="#{promedioC.listarEstu(registroC.registro.codAul, registroC.registro.codCur)}"  update="frmPromedios"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                </h:form>
+
+                <br/>
+
+                <h:form id="frmPromedios">
+                    <p:dataTable var="promedio" value="#{promedioC.listarEstudiante}" sortBy="#{promedio.NOMEST}">
+                        
+                        <p:column style="width: 25px; text-align: center;font-size: 12px"  headerText="Estudiante" groupRow="true">
+                            <h:outputText value="#{promedio.NOMEST}" />
+                        </p:column>
+
+                        <p:column style="width: 20px; text-align: center;font-size: 12px" headerText="Criterio" groupRow="true" >
+                            <h:outputText value="#{promedio.criterio.nomCri}" />
+                        </p:column>
+
+                        <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Nota">
+                            <h:outputText value="#{promedio.nota.notReg}"/>
+                        </p:column>
+
+                        <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Fecha">
+                            <h:outputText value="#{promedio.nota.fechReg}" />
+                        </p:column>
+                        <p:column style="width: 10px; text-align: center;font-size: 12px" headerText="Promedio" groupRow="true" >
+                            <p:repeat value="#{promedio.lstPromedioFinal}" var="lstPF">
+                                <h:outputText value="#{lstPF.PROMFINAL}" />
+                                <br/>
+                            </p:repeat>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+
+
+
+
+
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

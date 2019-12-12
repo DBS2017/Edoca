@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../Template/PlantillaI.xhtml">
+
+            <ui:define name="bim">
+                <li>
+                    <a><i class="zmdi zmdi-male-alt zmdi-hc-fw"></i>Notas Bimestrales</a>
+                </li>
+            </ui:define>
+            <ui:define name="content">
+
+                <h3>Bimestres</h3>
+                <f:event listener="#{asistenciaC.lisBim(loginC.usuario.codProf)}" type="preRenderView"/> 
+                <h:form>
+                    <p:dataTable var="sale" value="#{asistenciaC.listBimestre}">
+                        <p:columnGroup type="header">
+                            <p:row>
+                                <p:column rowspan="3" headerText="Aula" />
+                                <p:column filterBy="#{sale.apeBim}, #{sale.nomBim}"  rowspan="3" headerText="Alumno" />
+                                <p:column rowspan="3" headerText="Curso" />
+                                <p:column colspan="5" headerText="Notas" />
+                            </p:row>
+                            <p:row>
+                                <p:column headerText="Bimestre 1" />
+                                <p:column headerText="Bimestre 2" />
+                                <p:column headerText="Bimestre 3" />
+                                <p:column headerText="Bimestre 4" />
+                                <p:column headerText="Bimestre 5" />
+                            </p:row>
+                        </p:columnGroup>
+
+
+
+                        <p:column groupRow="true">
+                            <h:outputText value="#{sale.secciones}" />                            
+                        </p:column>
+                        <p:column groupRow="true">
+                            <h:outputText value="#{sale.apeBim}, #{sale.nomBim}" />
+
+                            <p:commandLink ajax="false"  actionListener="#{asistenciaC.RALUM(sale.codMat)}" >
+                                <img width="25%" src="../../Img/PDF.png" />
+                            </p:commandLink>                                    
+
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{sale.nomCuBim}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{sale.bim1}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{sale.bim2}">
+
+                            </h:outputText>
+                        </p:column>
+
+
+                        <p:column>
+                            <h:outputText value="#{sale.bim3}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{sale.bim4}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{sale.bim5}"/>
+                        </p:column>
+
+
+                    </p:dataTable>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

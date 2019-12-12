@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <h:head>
+        <title>Edooca</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+        <link href="resources/css/main.css" rel="stylesheet" type="text/css"/>
+        <link rel="icon" type="image/png" href="resources/img/icon.png" />
+        <link href="resources/css/posicion.css" />
+    </h:head>
+
+
+    <h:body  class="cover" style="background-image: url(Img/1.jpg); ">
+        <header>
+            <a href="http://fractal.edu.pe/" style="width: 80px;font-size: 50px; text-align: center" target="_blank" >
+                <center>
+                    <font face="Comic Sans MS,Arial,Verdana" style="color: #FFF">"Institución Educativa Privada FRACTAL"</font>
+                </center>
+            </a>
+        </header>
+
+        <h:form id="log" class="full-box logInForm">
+            <h1> <p class="text-center text-muted text-uppercase" >"EDOOCA"</p> </h1>
+
+            <p:growl id="msg" showDetail="true">
+                <p:autoUpdate/>
+            </p:growl>
+
+            <div class="form-group label-floating">
+                <label class="control-label" for="UserEmail">Usuario</label>
+                <p:inputText value="#{loginC.pass}" class="form-control" id="UserEmail" type="email" rendered="true"  required="true" requiredMessage="Incorrecto, Ingrese tu Usuario"/>
+                <p class="help-block">Ingrese su usuario</p>
+            </div>
+
+            <div class="form-group label-floating">
+                <label class="control-label" for="UserPass">Contraseña</label> 
+                <p:password value="#{loginC.user}" class="form-control" id="UserPass" required="true" requiredMessage="Ingrese Contraseña" />
+                <p class="help-block">Ingrese su contraseña</p>
+            </div>
+
+
+            <a href="https://www.yumpu.com/es/document/read/62914586/manual-de-usuario-de-aplicacion-edooca" style="width: 80px;font-size: 17px; text-align: right" target="_blank">
+                <p>¿Necesitas Ayuda?</p>
+            </a>
+            <br></br>
+            <a href="vistas/Contacto/Contacto.xhtml" style="width: 80px;font-size: 17px; text-align: right" target="_blank">
+                <p>Contáctanos</p>  
+            </a>
+
+            <div class="form-group text-center" >
+                <p:commandButton class="btn btn-raised btn-danger" actionListener="#{loginC.startSession()}" value="Iniciar Sesion"/>
+            </div>
+
+            <p class="text-center">Sistema de Gestión Académica Escolar Versión 1.0</p>
+
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                <center>
+                    <p:graphicImage style="display: block;animation: "  library="img" name="cargando.gif" />
+                </center>
+            </p:dialog>
+
+            <style>
+                .ui-dialog.ui-widget-content {
+                    background-image: url("cargando.gif");
+                    background-repeat: inherit;
+                    background-color: transparent;
+                    border-color: transparent;
+                }
+            </style>
+        </h:form>
+        <p:dataGrid value="" emptyMessage=""> </p:dataGrid>
+
+
+        <form>
+
+
+        </form>
+
+
+
+
+        <!--====== Scripts -->
+        <script src="resources/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="resources/js/material.min.js" type="text/javascript"></script>
+        <script src="resources/js/ripples.min.js" type="text/javascript"></script>
+        <script src="resources/js/sweetalert2.min.js" type="text/javascript"></script>
+        <script src="resources/js/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
+        <script src="resources/js/main.js" type="text/javascript"></script>
+        <script>
+            $.material.init();
+        </script>
+
+
+
+
+        <footer class="navbar-fixed-bottom">            
+            <h:form>
+                <b><p style=" color: #FFF" > Este Sistema fue desarrollado por estudiantes de la I.E.S.T.P. Valle Grande </p></b> 
+                <b><p style=" color: #FFF" > con fines de ayudar a la institución a desarrollarse como una Escuela Tecnológica </p></b>
+            </h:form>    
+        </footer>
+
+
+
+    </h:body>
+
+</html>

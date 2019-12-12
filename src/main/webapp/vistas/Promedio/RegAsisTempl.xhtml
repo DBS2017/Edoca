@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../Template/PlantillaI.xhtml">
+
+            <ui:define name="RegAsist">
+                <li>
+                    <a><i class="zmdi zmdi-male-alt zmdi-hc-fw"></i>Control de Asistencias</a>
+                </li>
+            </ui:define>
+
+            <ui:define name="content">
+                <center>
+                    <h1>CONTROL DE ASISTENICAS</h1>
+                </center> 
+
+                <div class="container-fluid">
+                    <h:form id="prilcombo">
+                        <br/>
+
+                        <br/>
+                        <p:panelGrid columns="2">
+
+                            <p:outputLabel style="color: red" value="SELECCIONAR AULA"/>
+                            <p:selectOneMenu  value="#{asistenciaC.asis.codAul}" id="AcAul" required="true" requiredMessage="SELECCIONAR EL AULA ES OBLIGATORIO">
+                                <p:ajax event="change" listener="#{promedioasisC.promediarAsis(asistenciaC.asis.codAul)}" update="frmListar"/>
+                                <f:selectItem itemLabel="SELECCIONAR AULA" noSelectionOption="true"/>
+                                <f:selectItems value="#{asistenciaC.listarAula}" var="txtaula" itemValue="#{txtaula.codAul}" itemLabel="#{txtaula.nomAul}"/>
+                            </p:selectOneMenu> 
+                        </p:panelGrid>
+
+                    </h:form>                  
+
+                    <h:form id="frmListar">
+                        <p:dataTable id="cars2" var="ListEstu" value="#{promedioasisC.listaPromAsis}" sortBy="#{ListEstu.apeEstu}"
+                                     emptyMessage="SELECCIONE AULA">
+                            <p:column headerText="NOMBRE(S) Y APELLIDOS" width="50%" groupRow="true">
+                                <h:outputText value="#{ListEstu.nomEstu}, #{ListEstu.apeEstu}"/>
+                            </p:column>
+                            <p:column headerText="ASISTENCIAS" width="20%">
+                                <h:outputText value="#{ListEstu.ASISTENCIAS}"/>
+                            </p:column>
+                            <p:column headerText="FALTAS" width="20%">
+                                <h:outputText value="#{ListEstu.FALTAS}"/>
+                            </p:column>
+                            <p:column headerText="CABELLO ANTIRREGLAMENTARIO" width="30%">
+                                <h:outputText value="#{ListEstu.CABELLO}"/>
+                            </p:column>
+                            <p:column headerText="MALVESTIDO" width="20%">
+                                <h:outputText value="#{ListEstu.MALVESTIDO}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

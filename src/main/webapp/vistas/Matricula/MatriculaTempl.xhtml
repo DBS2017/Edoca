@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../Template/PlantillaI.xhtml">
+
+            <ui:define name="content">
+                <p:growl showDetail="true" id="messages" >
+                    <p:autoUpdate/>
+                </p:growl>
+                <h:form id="form">
+                    <br></br>
+                    <center> <b><i><H2>ASIGNACIÓN DE MATRÍCULAS</H2></i></b></center>
+                    <br></br>
+                    <p:dataTable value="#{matriculaC.listadoMat}" id="dtTable" var="lista" 
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                 paginator="true" rows="10" style="margin-bottom:80px" widgetVar="wdlaData">
+                        
+                        <f:facet name="header">
+                            <br></br>
+                            <p:commandButton value="Agregar Matrícula"
+                                             icon="ui-icon-pencil"
+                                             oncomplete="PF('wdlgDatos').show();"
+                                             update=":dlgDatos"
+                                             actionListener="#{matriculaC.setAcctionMatr('Matricular')}"/>
+                            <br></br>
+                            <br></br>
+
+                        </f:facet>
+
+                        <p:column headerText="FECHA DE MATRÍCULA">
+                            <center>
+                                <h:outputText value="#{lista.fecMat}"/>
+                            </center>
+                        </p:column>
+
+                        <p:column style="width: 370px" headerText="ESTUDIANTE">
+                            <h:outputText value="#{lista.autEst}"/>
+                        </p:column>
+
+                        <p:column style="width: 370px" headerText="APODERADO">
+                            <h:outputText value="#{lista.autApo}"/>
+                        </p:column>                
+
+                        <p:column headerText="AULA">
+                            <center>
+                                <h:outputText value="#{lista.autAul}"/>
+                            </center>
+                        </p:column>
+
+                        <p:column style="width: 70px">  <!--MODIFICAR MATRÍCULA-->
+                            <p:commandButton id="Modificar"
+                                             icon="ui-icon-pencil"
+                                             style="background: #f7ecb5"
+                                             actionListener="#{matriculaC.leerMatri(lista.codMat)}" 
+                                             oncomplete="PF('wdlgDatos').show();"
+                                             update=":dlgDatos">
+                                <p:tooltip for="Modificar" value="MODIFICAR" showEffect="clip" hideEffect="explode" position="left"/>
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column  style="width: 70px">  <!--ELIMINAR MATRÍCULA-->
+                            <p:commandButton id="Eliminar"
+                                             icon="ui-icon-circle-close"
+                                             style="background: #ec971f"
+                                             actionListener="#{matriculaC.eliminar(lista)}"
+                                             update="dtTable">
+                                <p:tooltip for="Eliminar" value="ELIMINAR" showEffect="clip" hideEffect="explode" position="left"/>
+                                <p:confirm header="CONFIRMACIÓN:" message="¿DESEA ELIMINAR REGISTRO? " icon="ui-icon-alert" />                                
+                            </p:commandButton>
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes"
+                                                 icon="ui-icon-check"/>
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                                                 icon="ui-icon-close" />
+                            </p:confirmDialog>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+
+                <p:dialog showEffect="explode" modal="false"
+                          hideEffect="explode"
+                          header="Datos:"
+                          id="dlgDatos" widgetVar="wdlgDatos">
+                    <h:form>
+                        <p:panelGrid columns="2">                    
+
+                            <h:outputText value="APODERADO" />
+                            <p:autoComplete id="cur" dropdown="true" value="#{matriculaC.matricula.autApo}" completeMethod="#{matriculaC.completeTextidApo}"/>
+
+                            <h:outputText value="ESTUDIANTE"  />
+                            <p:autoComplete id="aul" dropdown="true" value="#{matriculaC.matricula.autEst}" completeMethod="#{matriculaC.completeTextidEst}"/>
+
+                            <h:outputText value="AULA" />
+                            <p:autoComplete id="aula" dropdown="true" value="#{matriculaC.matricula.autAul}" completeMethod="#{matriculaC.compltAula}"/>
+
+                        </p:panelGrid>
+                        <p:commandButton value="#{matriculaC.acctionMatr}"
+                                         actionListener="#{matriculaC.operadorMatri()}"
+                                         update="dlgDatos :form:dtTable"/>
+                        <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();"/>
+                    </h:form>                    
+                </p:dialog>
+
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

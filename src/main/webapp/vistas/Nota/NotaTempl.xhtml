@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <h:body>
+
+        <ui:composition template="./../Template/PlantillaI.xhtml">
+
+            <ui:define name="content">
+                <center> 
+                    <h1> Registro de Notas</h1>
+                </center>
+                <f:event  listener="#{notaC.lisPorCurso(loginC.usuario.codProf)}" type="preRenderView"/> 
+                <p:growl id="grow" showDetail="true" life="1000" >                    
+                    <p:autoUpdate/>
+                </p:growl>
+
+                <h:form id="prilcombo">                
+                    <p:panelGrid columns="2">
+                        <h:outputText value="NOMBRE DE CURSO"/>
+                        <p:selectOneMenu value="#{notaC.nota.CODCUR}" required="true" requiredMessage=" Curso Obligatorio">                       
+                            <f:selectItem itemLabel="Selecionar Curso" noSelectionOption="true"/>
+                            <f:selectItems value="#{notaC.listaPorCursos}" var="txtCursos" itemValue="#{txtCursos.CODCUR}" itemLabel="#{txtCursos.NOMCUR}"/>   
+                            <p:ajax event="change" listener="#{notaC.listarAula()}" update="AcAul" />
+                        </p:selectOneMenu>
+
+                        <h:outputText value="AULA Y SECCIÓN"/>
+                        <p:selectOneMenu value="#{notaC.nota.CODDET_AUL}" id="AcAul" required="true" requiredMessage="Aula Obligatoria">
+                            <p:ajax event="change" listener="#{notaC.listarPorAula()}" update="tablas" />                            
+                            <p:ajax event="change" listener="#{notaC.listarPorAula2()}" update="tablas" />
+                            <p:ajax event="change" listener="#{notaC.listarPorAula3()}" update="tablas" />
+                            <p:ajax event="change" listener="#{notaC.listarPorAula4()}" update="tablas" />
+                            <p:ajax event="change" listener="#{notaC.Promedio()}" update="tablas"/>
+                            <p:ajax event="change" listener="#{notaC.listarEstu()}" update="dlgDatos"/>
+                            <f:selectItem itemLabel="Selecionar Aula" noSelectionOption="true"/>
+                            <f:selectItems value="#{notaC.listaAula}" var="txtAula" itemValue="#{txtAula.CODDET_AUL}" itemLabel="#{txtAula.NOMAUL}"/>
+                        </p:selectOneMenu>
+
+
+                    </p:panelGrid>
+                    <p:commandButton value="Registrar Notas" process="@all" update="prilcombo :dlgDatos" oncomplete="PF('wdlgDatos').show();" />
+                </h:form>
+
+                <br/>
+                <h:form >  
+                    <p:commandButton type="button" value="Actualizar" onclick="window.location.reload()" />
+                </h:form>
+                <p:tabView id="tablas"><font></font>
+                    <p:tab title="Tareas Diarias"><font></font>
+                        <ui:include src="TareasDiarias.xhtml"/>
+                    </p:tab><font></font>
+
+                    <p:tab title="Ex. Diarias"><font></font>
+                        <ui:include src="ExaDiar.xhtml"/>
+                    </p:tab><font></font>
+
+                    <p:tab title="Rev. Cuadernos"><font></font>
+                        <ui:include src="RevCuad.xhtml"/>
+                    </p:tab><font></font>
+
+                    <p:tab title="Ex. Mensual"><font></font>
+                        <ui:include src="ExMens.xhtml"/>
+                    </p:tab><font></font>
+
+                    <p:tab title="Promedios"><font></font>
+                        <ui:include src="PromedioT.xhtml"/>
+                    </p:tab><font></font>
+                </p:tabView><font></font>
+
+
+
+                <ui:include src="create.xhtml"/>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>

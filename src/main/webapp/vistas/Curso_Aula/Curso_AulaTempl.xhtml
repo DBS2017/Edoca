@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../Template/PlantillaI.xhtml">
+
+            <ui:define name="content">
+
+                <h:body>
+                    <p:growl showDetail="true" id="messages" >
+                        <p:autoUpdate/>
+                    </p:growl>
+                    <center>
+                        <br></br>
+                        <h:form id="form">
+                            <center> <b><i><H2>ASIGNACIÓN DE PROFESORES</H2></i></b></center>
+                            <br></br>
+                            
+                            <p:dataTable value="#{curso_AulaC.listCursoAula}" id="dtTable" var="lista" 
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                         paginator="true" rows="10" style="margin-bottom:80px" widgetVar="wdlaData">
+                                
+
+                                <f:facet name="header">
+                                    <br></br>
+                                    <p:commandButton value="Agregar Asignación"
+                                                     icon="ui-icon-pencil" 
+                                                     oncomplete="PF('wdlgDatos').show();"
+                                                     update=":dlgDatos"
+                                                     actionListener="#{curso_AulaC.setAcctionCur('Asignar')}"/>
+                                    <br></br> 
+                                    <br></br>
+                                </f:facet>
+                                
+                                <p:column style="width: 70px" headerText="AULA"  groupRow="true">
+                                    <center>
+                                        <h:outputText value="#{lista.cheAul}"/>
+                                    </center>
+                                </p:column>
+                                                                
+                                <p:column style="width: 170px" headerText="CURSO">
+                                    <h:outputText value="#{lista.autCur_Aul}"/>
+                                </p:column>
+
+                                <p:column style="width: 300px" headerText="PROFESOR">
+                                    <h:outputText value="#{lista.autPer}"/>
+                                </p:column>
+
+                                
+
+                                <p:column style="width: 50px"> <!--MODIFICAR-->                                
+                                    <p:commandButton id="Modificar"
+                                                     icon="ui-icon-pencil"
+                                                     style="background: #f7ecb5"
+                                                     actionListener="#{curso_AulaC.leerCurso(lista.codCurAul)}" 
+                                                     oncomplete="PF('wdlgDatos').show();"
+                                                     update=":dlgDatos">
+                                        <p:tooltip for="Modificar" value="MODIFICAR" showEffect="clip" hideEffect="explode" position="left"/>
+                                    </p:commandButton>
+                                </p:column>
+
+                                <p:column style="width: 50px"> <!--ELIMINAR-->
+                                    <p:commandButton id="Eliminar"
+                                                     icon="ui-icon-circle-close" 
+                                                     style="background: #ec971f"
+                                                     actionListener="#{curso_AulaC.eliminar(lista)}"
+                                                     update="dtTable">
+                                        <p:tooltip for="Eliminar" value="ELIMINAR" showEffect="clip" hideEffect="explode" position="left"/>
+                                        <p:confirm header="CONFIRMACIÓN:" message="¿DESEA ELIMINAR ASIGNACIÓN? " icon="ui-icon-alert" />                                       
+                                    </p:commandButton>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes"
+                                                         icon="ui-icon-check"/>
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                                                         icon="ui-icon-close" />
+                                    </p:confirmDialog>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </center>
+
+                    <p:dialog showEffect="explode" modal="false" 
+                              hideEffect="explode"
+                              header="ASIGNACIÓN:" id="dlgDatos" widgetVar="wdlgDatos">
+                        <h:form>
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="PROFESOR" for="prof"/>
+                                <p:autoComplete id="prof" dropdown="true" value="#{curso_AulaC.curso_aula.autPer}" completeMethod="#{curso_AulaC.complePer}"/>
+
+                                <p:outputLabel value="CURSO" for="cur"/>
+                                <p:autoComplete id="cur" dropdown="true" value="#{curso_AulaC.curso_aula.autCur_Aul}" completeMethod="#{curso_AulaC.compleCurAul}"/>
+
+                                <h:outputLabel for="aul" value="AULA"/>
+                                <p:autoComplete id="aul" dropdown="true" value="#{curso_AulaC.curso_aula.cheAul}" completeMethod="#{curso_AulaC.complAul}"/>
+                            </p:panelGrid>
+                            <p:commandButton value="#{curso_AulaC.acctionCur}"
+                                             actionListener="#{curso_AulaC.operadorCurso()}"
+                                             update="dlgDatos :form:dtTable"/>
+                            <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();"/>
+                        </h:form>
+                    </p:dialog>
+
+                </h:body>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

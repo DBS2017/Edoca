@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <h:head>
+        <title>Aulas</title>
+    </h:head>
+
+    <h:form>
+        <h:form>
+            <p:growl showDetail="true">
+                <p:autoUpdate/>
+            </p:growl>
+            <h:form id="formIns"> 
+                <h3 style="margin-top:1" align="center" > <b><i><H1>Registro de Aulas</H1></i></b></h3>
+            </h:form>
+        </h:form>
+    </h:form>
+    <h:body>
+
+        <p:growl showDetail="true" id="messages">
+            <p:autoUpdate/>
+        </p:growl>
+        <center>
+
+            <h:form id="formIns">
+                <p:panelGrid columns="2">
+
+                    <p:outputLabel  value="Grado"/>
+                    <p:selectOneMenu id="gradoI" value="#{aulaC.aula.graAul}"  >
+                        <f:selectItem itemLabel="Selecciona" itemValue="" />
+                        <f:selectItem itemLabel="Primero" itemValue="Primero"/>
+                        <f:selectItem itemLabel="Segundo" itemValue="Segundo"/>
+                        <f:selectItem itemLabel="Tercero" itemValue="Tercero"/>
+                        <f:selectItem itemLabel="Cuarto" itemValue="Cuarto"/>
+                        <f:selectItem itemLabel="Quinto" itemValue="Quinto"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel  value="Sección"/>
+                    <p:selectOneRadio id="seccionI" value="#{aulaC.aula.secAul}"  >
+                        <f:selectItem itemLabel="A" itemValue="A"/>
+                        <f:selectItem itemLabel="B" itemValue="B"/>
+                        <f:selectItem itemLabel="C" itemValue="C"/>               
+                    </p:selectOneRadio>
+
+                    <p:outputLabel value="Estado"/>
+                    <p:selectOneRadio id="estadoI" value="#{aulaC.aula.estAul}"  >
+                        <f:selectItem itemLabel="Activo" itemValue="Activo"/>
+                        <f:selectItem itemLabel="Inactivo" itemValue="Inactivo"/>                              
+                    </p:selectOneRadio>
+                </p:panelGrid>
+                <p:commandButton 
+                    value="Registrar" actionListener="#{aulaC.registrar()}"
+                    update="form">            
+                </p:commandButton> 
+                <p:commandButton 
+                    value="Cancelar" actionListener="#{aulaC.limpiar()}"
+                    update="form">            
+                </p:commandButton> 
+
+            </h:form>
+        </center>
+
+        <p:growl showDetail="true">
+            <p:autoUpdate/>
+        </p:growl>
+
+        <center>
+            <h:form id="form" style="width: 1000px">
+                <p:dataTable value="#{aulaC.listadoAul}" var="lista" id="dtTable"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                             paginator="true" rows="10" style="margin-bottom:10px">
+
+
+                    <p:column style="width: 95px" headerText="Grado" >
+                        <h:outputText value="#{lista.graAul}"/>                
+                    </p:column>
+
+                    <p:column style="width: 95px" headerText="Sección">
+                        <h:outputText value="#{lista.secAul}"/>
+                    </p:column>
+
+                    <p:column style="width: 95px" headerText="Estado del aula">
+                        <h:outputText value="#{lista.estAul}"/>
+                    </p:column>
+
+                    <!--Modificar-->
+                    <p:column style="width: 95px">
+                        <p:commandButton icon="ui-icon-pencil"
+                                         style="background: #f7ecb5"
+                                         oncomplete="PF('wdlgDatos').show();" update=":dlgDatos">
+                            <f:setPropertyActionListener value="#{lista}" target="#{aulaC.aula}"/>          
+                        </p:commandButton>
+                    </p:column>
+                    <p:column style="width: 95px">
+                        <p:commandButton icon="ui-icon-circle-close" update=":messages"
+                                         style="background: #ec971f"
+                                         actionListener="#{aulaC.eliminar(aul)}">
+                            <p:confirm header="Confirmación" message="¿Deseas Eliminar?" icon="ui-icon-alert"/>
+                            <p:tooltip trackMouse="true"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>                        
+                        </p:confirmDialog>
+                    </p:column>                        
+                </p:dataTable> 
+            </h:form>
+        </center>
+
+        <p:dialog id="dlgDatos" widgetVar="wdlgDatos">
+            <h:form>
+                <p:panelGrid columns="4"  style="margin-bottom:10px" >
+                    <p:outputLabel  value="Grado"/>
+                    <p:selectOneRadio id="grado" value="#{aulaC.aula.graAul}">
+                        <f:selectItem itemLabel="1ero" itemValue="1ero"/>
+                        <f:selectItem itemLabel="2do" itemValue="2do"/>
+                        <f:selectItem itemLabel="3ero" itemValue="3ero"/>
+                        <f:selectItem itemLabel="4to" itemValue="4to"/>
+                        <f:selectItem itemLabel="5to" itemValue="5to"/>
+                    </p:selectOneRadio>
+
+                    <p:outputLabel  value="Sección"/>
+                    <p:selectOneRadio id="seccion" value="#{aulaC.aula.secAul}"  >
+                        <f:selectItem itemLabel="A" itemValue="A"/>
+                        <f:selectItem itemLabel="B" itemValue="B"/>
+                        <f:selectItem itemLabel="C" itemValue="C"/>               
+                    </p:selectOneRadio>
+
+                    <p:outputLabel value="Estado"/>
+                    <p:selectOneRadio id="estado" value="#{aulaC.aula.estAul}"  >
+                        <f:selectItem itemLabel="Activo" itemValue="A"/>
+                        <f:selectItem itemLabel="Desactivo" itemValue="D"/>                              
+                    </p:selectOneRadio>                                                         
+                </p:panelGrid>
+
+                <p:commandButton value="Actuaizar" actionListener="#{aulaC.modificar()}"
+                                 update=":form :messages" oncomplete="PF('wdlgDatos').hide();">
+                    <p:confirm header="Confirmación" message="¿Deseas modificar?" icon="ui-icon-alert"/>
+                    <p:tooltip trackMouse="true"/>
+                </p:commandButton>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                </p:confirmDialog>
+                <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();"/>                                        
+            </h:form>
+        </p:dialog>
+
+
+    </h:body>
+</html>

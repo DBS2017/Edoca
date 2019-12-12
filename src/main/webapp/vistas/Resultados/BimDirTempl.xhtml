@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../Template/PlantillaI.xhtml">
+
+            <ui:define name="content">
+
+                <h:form>
+
+                    <center> <h3 style="margin-top:  ">PROMEDIO DE LOS ESTUDIANTES</h3></center>
+                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel for="console" value="AULA: " />
+                        <p:selectOneMenu id="console" value="#{resultadosC.bimestre.aula}">
+                            <f:selectItems value="#{resultadosC.listAul}" var="sec"  itemLabel="#{sec.aula}" itemValue="#{sec.aula}"/>   
+                            <p:ajax event="change" listener="#{resultadosC.listAulasA()}" update="dtTable"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel for="consoleI" value="ESTUDIANTE: " />
+                        <p:selectOneMenu id="consoleI" value="#{resultadosC.bimestre.ESTUDIANTE}">
+                            <f:selectItems value="#{resultadosC.selecAlum}" var="sec"  itemLabel="#{sec.ESTUDIANTE}" itemValue="#{sec.ESTUDIANTE}"/>   
+                            <p:ajax event="change" listener="#{resultadosC.listAulasA()}" update="dtTable"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    
+              
+
+                    <p:dataTable id="dtTable" var="sale" value="#{resultadosC.listAjax}" filteredValue="#{registroC.filterCurso}">
+                        <p:columnGroup type="header">
+                            <p:row>
+                                <p:column style="width: 200px; text-align: center;font-size: 12px" rowspan="3" headerText="ESTUDIANTE" />
+                                <p:column filterBy="#{sale.nomCuBim}" style="width: 200px; text-align: center;font-size: 12px" rowspan="3" headerText="CURSO" />
+                                <p:column colspan="5" style="font-size: 12px" headerText="PROMEDIO DE NOTAS DEL ESTUDIANTE" />
+                            </p:row>
+                            <p:row>
+                                <p:column style="width: 70px; text-align: center;font-size: 12px" headerText="BIMESTRE 1" />
+                                <p:column style="width: 70px; text-align: center;font-size: 12px" headerText="BIMESTRE 2" />
+                                <p:column style="width: 70px; text-align: center;font-size: 12px" headerText="BIMESTRE 3" />
+                                <p:column style="width: 70px; text-align: center;font-size: 12px" headerText="BIMESTRE 4" />
+                                <p:column style="width: 70px; text-align: center;font-size: 12px" headerText="BIMESTRE 5" />
+                            </p:row>
+                        </p:columnGroup>
+
+                        <p:column style="width: 70px; text-align: center;font-size: 12px" groupRow="true">
+                            <h:outputText value="#{sale.ESTUBIM}" />
+                        </p:column>
+
+                        <p:column style="width: 70px; text-align: center;font-size: 12px" >
+                            <h:outputText value="#{sale.nomCuBim}" />
+                        </p:column>
+                        <p:column style="width: 70px; text-align: center;font-size: 15px" >
+                            <h:outputText value="#{sale.bim1}" />
+                        </p:column>
+                        <p:column style="width: 70px; text-align: center;font-size: 15px" >
+                            <h:outputText value="#{sale.bim2}"/>                           
+                        </p:column>
+                        <p:column style="width: 70px; text-align: center;font-size: 15px" >
+                            <h:outputText value="#{sale.bim3}"/>
+                        </p:column>
+                        <p:column style="width: 70px; text-align: center;font-size: 15px" >
+                            <h:outputText value="#{sale.bim4}"/>
+                        </p:column>
+                        <p:column style="width: 70px; text-align: center;font-size: 15px" >
+                            <h:outputText value="#{sale.bim5}"/>
+                        </p:column>
+
+
+                    </p:dataTable>
+                </h:form>                                                                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
